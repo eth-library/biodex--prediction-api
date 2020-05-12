@@ -12,7 +12,7 @@ from uploadforpredict_rest.prediction_preprocessing import get_model_prediction
 from uploadforpredict_rest.prediction_postprocessing import process_model_response
 from backend.settings import MEDIA_ROOT, ASSETS_DIR #, TENSORFLOW_SERVING_URL
 
-FAKE_MODEL_RESPONSE = True
+FAKE_MODEL_RESPONSE = False
 
 @api_view(['POST','GET'])
 def predict_image_view(request):
@@ -24,7 +24,7 @@ def predict_image_view(request):
         serializer = PredictImageSerializer(data=request.data)
 
         if serializer.is_valid():
-
+            print('serializer.is_valid')
             strt_time = time()
             serializer.save()
             #get prediction for posted image
@@ -33,6 +33,7 @@ def predict_image_view(request):
             serialized_fname = os.path.basename(serializer.data['image'])
 
             uploaded_img_path = MEDIA_ROOT + '/' +  serialized_fname
+
             if FAKE_MODEL_RESPONSE:
                 response_data = {}
                 predictions_data = {'predictions':{0:[1,2,3,4,],1:[5,6,7,8,]}}

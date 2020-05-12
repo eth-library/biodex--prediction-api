@@ -13,10 +13,10 @@ strt_time = time()
 BASE_DIR = os.path.join(curdir, '..')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploaded_media')
-MEDIA_URL = '/media/'
-ASSETS_DIR = os.path.join(BASE_DIR, 'assets')
-EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'assets','example_images')
-EXAMPLE_IMAGES_BASE_URL = 'https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/'
+MEDIA_URL = '/media/2017_03_10R/'
+ASSETS_DIR = os.path.join(BASE_DIR, 'backend/assets')
+EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
+EXAMPLE_IMAGES_BASE_URL = 'http://0.0.0.0:8000' + MEDIA_URL
 
 HIER_ORDER = ['species', 'genus', 'subfamily', 'family']
 prob_order = [x+'_prob' for x in HIER_ORDER]

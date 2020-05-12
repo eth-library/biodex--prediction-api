@@ -135,7 +135,7 @@ STATIC_URL = "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # stores files uploaded by users
-MEDIA_URL = "/mediafiles/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets') # stores files used for pre and post processing prediction response

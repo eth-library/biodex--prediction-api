@@ -9,9 +9,9 @@ import json
 
 MODEL_NAME = 'resnet_test'
 MODEL_VERSION = 'v1'
-TENSORFLOW_SERVING_URL = 'http://localhost:8501/{version}/models/{model_name}:predict'.format(version=MODEL_VERSION, model_name=MODEL_NAME)
+TENSORFLOW_SERVING_URL = 'http://tf:8501/{version}/models/{model_name}:predict'.format(version=MODEL_VERSION, model_name=MODEL_NAME)
 
-FAKE_MODEL_RESPONSE = True
+FAKE_MODEL_RESPONSE = False
 
 STDDEV_RGB = [92.01, 90.91, 88.99]
 STDDEV_RGB = np.array(STDDEV_RGB) / 255
