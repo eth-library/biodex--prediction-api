@@ -19,13 +19,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY",'foo')
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '127.0.0.1').split(" ")
 
 # ? assigning env variables here not working
 # DJANGO_SUPERUSER_PASSWORD = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
@@ -43,11 +43,60 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser', # library provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
+ 
     "upload",
     "uploadforpredict",
     "uploadforpredict_rest",
-
+    "taxonomy",
+    "taxonomy_rest",
+    # "user_rest",
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# API Settings: only show browsable api while in DEBUG
+DEFAULT_RENDERER_CLASSES = [
+    'rest_framework.renderers.JSONRenderer'
+    ]
+
+# AUTH_USER_MODEL="user_rest.CustomUser"
+
+# https://djoser.readthedocs.io/en/latest/settings.html
+DJOSER = {
+    'USER_CREATE_PASSWORD_RETYPE' : True,
+    'HIDE_USERS' : True, # users can only see their own user account unless
+    # 'LOGIN_FIELD': 'email',
+    # 'SERIALIZERS':{
+    #     'user_create': 'user_rest.serializers.CustomUserSerializer',
+    #     'user': 'user_rest.serializers.CustomUserSerializer'
+    # }
+}
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_USE_TLS = True
+EMAIL_PORT = os.environ.get("EMAIL_PORT", 587)
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "speseefy@gmail.com")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "foo")
+
+
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,7 +127,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -134,8 +182,12 @@ USE_TZ = True
 STATIC_URL = "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# stores files uploaded by users
+# stores files for static serving
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
+
+# use seperate folders for example images and uploaded images
+MEDIA_UPLOAD_FOLDER = os.path.join(MEDIA_ROOT, "upload")
+MEDIA_EXAMPLE_FOLDER = os.path.join(MEDIA_ROOT, "example")
 
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets') # stores files used for pre and post processing prediction response

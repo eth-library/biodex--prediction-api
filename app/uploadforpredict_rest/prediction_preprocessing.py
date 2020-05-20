@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status
+from backend.settings import DEBUG
 
 import numpy as np
 from PIL import Image
@@ -55,6 +56,8 @@ def get_model_prediction(image_localpath):
         #format the request
         data = json.dumps({ "instances": [preprocessed_img, ]})
         headers = {"content-type": "application/json"}
+        if DEBUG:
+            print('logging: posting image to model')
         model_api_response = requests.post(TENSORFLOW_SERVING_URL, data=data, headers=headers)
    
     return model_api_response 

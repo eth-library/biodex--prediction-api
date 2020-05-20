@@ -8,3 +8,4 @@ mysqlclient==1.4.6
 numpy==1.18.4
 Pillow==7.1.2
 requests==2.23.0
+djoser=2.0.3 #for authentication

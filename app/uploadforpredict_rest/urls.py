@@ -5,7 +5,6 @@ from rest_framework import routers
 from uploadforpredict_rest.views import predict_image_view
 
 
-
 urlpatterns = [
     path(r'predict/', predict_image_view)
 ]
