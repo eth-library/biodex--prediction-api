@@ -10,6 +10,9 @@ class Family(models.Model):
     created_date = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User,models.SET_NULL, blank=True, null=True)
 
+    def __str__(self):
+        return '{} '.format(self.name)
+
 
 class Subfamily(models.Model):
 
@@ -17,6 +20,9 @@ class Subfamily(models.Model):
     parent = models.ForeignKey(Family, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User,models.SET_NULL, blank=True, null=True)
+    
+    def __str__(self):
+        return '{} '.format(self.name)
 
 
 class Genus(models.Model):
@@ -29,6 +35,9 @@ class Genus(models.Model):
     class Meta:
         unique_together = ('name', 'parent')
 
+    def __str__(self):
+        return '{} '.format(self.name)
+
 
 class Species(models.Model):
 
@@ -40,3 +49,5 @@ class Species(models.Model):
     class Meta:
         unique_together = ('name', 'parent') # combination of Genus and species (known as epithet) must be unique
 
+    def __str__(self):
+        return '{} {}'.format(self.parent.name, self.name)
