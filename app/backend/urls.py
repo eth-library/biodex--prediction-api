@@ -12,9 +12,9 @@ from uploadforpredict.views import image_upload_for_predict
 
 
 urlpatterns = [
+    path("lepi-admin/", admin.site.urls),
     path("upload", image_upload, name="upload"),
     path("predict/", image_upload_for_predict, name="predict"),
-    path("admin/", admin.site.urls),
     path("api/",include(router.urls)),
     path("api/auth/", include("djoser.urls.authtoken")),
     path("api/auth/", include("djoser.urls")),
