@@ -41,18 +41,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser', # library provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
- 
+    'djoser',
     "upload",
     "uploadforpredict",
     "uploadforpredict_rest",
     "taxonomy",
     "taxonomy_rest",
-    # "user_rest",
 ]
+
+ # djoser library provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
 
 
 REST_FRAMEWORK = {
@@ -182,6 +181,8 @@ USE_TZ = True
 STATIC_URL = "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
+# files to populate the database with
+FIXTURES_DIRS = ["fixturefiles"]
 # stores files for static serving
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
