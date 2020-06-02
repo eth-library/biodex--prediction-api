@@ -16,7 +16,10 @@ fname = 'ETHZ_ENT01_2017_03_10_001404.JPG'
 img_path = fldr_path + fname
 files = {'image': (fname, open(img_path, 'rb')) }
 
-r = requests.post(url, files=files)
+auth_token = "6a3b38c2e0555cb5a3144583fec6bf4b520ead15"
+headers = {'Authorization': 'Token {}'.format(auth_token)}
+
+r = requests.post(url, headers=headers, files=files)
 print('status code: ', r.status_code)
 if r.status_code == 201:
     r_json = r.json()

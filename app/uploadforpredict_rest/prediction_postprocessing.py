@@ -24,7 +24,6 @@ prediction_keys = HIER_ORDER + prob_order
 NUM_RESULTS = 5
 
 
-
 def load_csv_as_array(fpath, datatype=np.int0, skip_header=True):
     """
     load a csv file and return as a numpy array

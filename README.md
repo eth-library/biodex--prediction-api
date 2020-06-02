@@ -109,6 +109,7 @@ http://127.0.0.1:8000/api/auth/users/
 
 http://127.0.0.1:8000/api/auth/token/login/
 
+
 # Example Curl Requests
 
 ## Request Token
@@ -116,3 +117,4 @@ curl -X POST -d '{"username": "admin","password": "1234"}' -H 'Content-Type: app
 
 ## Using  Token 
 curl -X POST http://127.0.0.1:8000/api/predict/ -H 'Authorization: Token a21e26bd12a16542f940d641e840e32ad16a26d0' [{"id":1,"name":"admin"]
+

@@ -25,7 +25,7 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '127.0.0.1').split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '127.0.0.1 localhost').split(" ")
 
 # ? assigning env variables here not working
 # DJANGO_SUPERUSER_PASSWORD = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
@@ -49,6 +49,11 @@ INSTALLED_APPS = [
     "uploadforpredict_rest",
     "taxonomy",
     "taxonomy_rest",
+    "predmodel",
+    "predmodel_rest",
+    "images_labelled",
+    "images_labelled_rest",
+    "frontend",
 ]
 
  # djoser library provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
@@ -180,6 +185,13 @@ USE_TZ = True
 
 STATIC_URL = "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [
+    "staticfiles/images",
+    "staticfiles/css",
+    "staticfiles/admin",
+    "staticfiles/rest_framework",
+    # '/var/www/static/',
+]
 
 # files to populate the database with
 FIXTURES_DIRS = ["fixturefiles"]

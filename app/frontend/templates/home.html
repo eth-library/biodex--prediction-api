@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>BioDex Home</h1>
+    {% load static %}
+  <img src="{% static "biodex_logo.svg" %}" width="250" alt="logo">
+
+  <p>Welcome to BioDex, a species classification tool for Taxonomists <em>developed by <a href="https://www.librarylab.ethz.ch/">ETH Library Lab</em></a></p>
+  <h2>Dynamic content</h2>
+  <p>The current classification model includes the following:</p>
+  <ul>
+    <li><strong>Families:</strong> {{ num_families }}</li>
+    <li><strong>Families:</strong> {{ num_families }}</li>
+    <li><strong>Families:</strong> {{ num_families }}</li>
+    <li><strong>Families:</strong> {{ num_families }}</li>
+  </ul>
+{% endblock %}
