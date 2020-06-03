@@ -14,8 +14,11 @@ def home_view(request):
     
     # # The 'all()' is implied by default.    
     # num_authors = Author.objects.count()
+
+    page_title = 'Home'
     
     context = {
+        'page_title':page_title,
         'num_families': num_families,
         # 'num_instances': num_instances,
         # 'num_instances_available': num_instances_available,
@@ -29,6 +32,10 @@ def home_view(request):
 def about_view(request):
     """View function for home page of site."""
 
+    page_title = 'About'
+
+    context = {
+        'page_title':page_title}
 
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'about.html', context=None)
+    return render(request, 'about.html', context=context)

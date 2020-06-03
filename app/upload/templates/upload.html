@@ -3,30 +3,20 @@
 
 
 {% block content %}
-<h1>BioDex Predict</h1>
-
   {% load static %}
-  <div class="container-md">
-    <img src="{% static 'biodex_logo.svg' %}" width="250" alt="logo">
-  </div>
 
   <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-<!-- 
-    <input class="btn btn-dark" type="file" name="image_file">
-    <button class="btn btn-dark" type="submit" value="submit" >submit</button> -->
 
     <hr>
     
-    <div class='col-6'>      
-      <div class="input-group">
-        <div class="custom-file">
-          <input type="file" name="image_file" class="custom-file-input" id="inputGroupImageFile">
-          <label class="custom-file-label" for="inputGroupImageFile">{{ image_name }} </label>
-        </div>
-        <div class="input-group-append">
-          <button class="btn btn-outline-primary" value="submit" type="submit">Upload</button>
-        </div>
+    <div class="input-group">
+      <div class="custom-file">
+        <input type="file" name="image_file" class="custom-file-input" id="inputGroupImageFile">
+        <label class="custom-file-label" for="inputGroupImageFile">{{ image_name }} </label>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" value="submit" type="submit">Upload</button>
       </div>
     </div>
 

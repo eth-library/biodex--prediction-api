@@ -83,18 +83,27 @@ Uses gunicorn + nginx.
 
 
 
-# MODEL 
-## updates
-_things that change with every new model_
+# Prediction Model
 
-* __model class numbers__  
+## things that are needed by the model for predictions
 
-    model classes will range from 0 to the number species the model was trained on. Class 0 in one model may not be the same as class 0 in a different model.  
-    The individual model ids need to be mapped to permanent species id numbers
+  
+### variables that change with every model
 
-* __class hierarchy maps__
 
-    
+#### image normalization values
+
+before the image is sent to the tensorflow model for prediction, the rgb values in the image are normalized, using the mean values for rgb mean and rgb standard deviation which was calculated for that model's training data. 
+
+#### species_key_map
+maps the species as numbered by the prediction model, to the species PKs in the database
+model classes will range from 0 to n, where _n_ is the number species the model was trained on. Class 0 in one model may not be the same as class 0 in a different model.The individual model ids need to be mapped to permanent species id numbers in the db
+
+* __encoded hierarchy maps__
+
+this maps how classes in each hierarchical level map to the classes in their parent level. This is used when summing up the probabilies from the species level up to the family level.
+
+
 # Authentication
 __Uses Djoser__
 

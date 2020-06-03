@@ -11,7 +11,7 @@ class PredModel(models.Model):
     species_included = models.CharField(max_length=10000, null=True)
     # species_key_map: maps the species as numbered by the prediction model, to the species PKs in the database
     species_key_map = models.CharField(max_length=10000, blank=False, null=False) #save json as text for dev purposes,switch to mysql native json serializer later
-    # encoded_hierarchy: maps how classes in each hierarchy map to their parent level
+    # encoded_hierarchy: maps how classes in each hierarchical level map to the classes in their parent level
     encoded_hierarchy = models.CharField(max_length=10000, blank=False, null=False) #save json as text for dev purposes, switch to mysql native json serializer later
     #values for image rgb mean and standard deviation. Used in prediction preprocessing
     rgb_mean_values = models.CharField(max_length=200, null=False, blank=False, default="[0, 0, 0]")

@@ -8,8 +8,10 @@ import json
 
 from uploadforpredict_rest.serializers import PredictImageSerializer
 from uploadforpredict.models import PredictImage
-from uploadforpredict_rest.prediction_preprocessing import get_model_prediction
-from uploadforpredict_rest.prediction_postprocessing import process_model_response
+from uploadforpredict_rest.predict import get_model_prediction
+
+# from uploadforpredict_rest.prediction_preprocessing import get_model_prediction
+# from uploadforpredict_rest.prediction_postprocessing import process_model_response
 from backend.settings import MEDIA_ROOT, ASSETS_DIR, DEBUG
 
 FAKE_MODEL_RESPONSE = False
@@ -52,7 +54,7 @@ def predict_image_view(request):
                     
                     model_api_json_resp = json.loads(model_api_response.text)
                     #possible to post a list of images to the model endpoint, but we only handle 1 image so use 0th reponse
-                    model_prediction = model_api_json_resp['predictions'][0] 
+                    model_prediction = model_api_json_resp['predictions'][0]
                     # process model response and create predictions dictionary with example images
                     predictions_data = process_model_response(model_prediction)
 
