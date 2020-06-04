@@ -1,16 +1,14 @@
-
 import requests
 import json
 import numpy as np
+from backend.settings import TENSORFLOW_SERVING_BASE_URL
 
 from uploadforpredict_rest.prediction_preprocessing import preprocess_img
 
-MODEL_NAME = 'resnet_test'
-MODEL_VERSION = 'v1'
+# MODEL_NAME = 'resnet_test'
+# MODEL_VERSION = 'v1'
 TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/{version}/models/{model_name}:predict'
-
 FAKE_MODEL_RESPONSE = False
-
 
 def get_model_record(model_name):
     

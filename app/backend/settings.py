@@ -203,4 +203,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 MEDIA_UPLOAD_FOLDER = os.path.join(MEDIA_ROOT, "upload")
 MEDIA_EXAMPLE_FOLDER = os.path.join(MEDIA_ROOT, "example")
 
+EXAMPLE_IMAGES_BASE_URL = 'http://0.0.0.0:8000' + MEDIA_URL
+EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
+
+# settings related to predictions
+
+TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/{version}/models/{model_name}:predict'
+# number of top results to return 
+NUM_RESULTS = 5
+
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets') # stores files used for pre and post processing prediction response
