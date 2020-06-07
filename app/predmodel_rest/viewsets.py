@@ -5,6 +5,8 @@ from predmodel.models import PredModel
 
 class PredModelViewset(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAdminUser]
+    throttle_scope = 'predictions_burst'
+    throttle_scope = 'predictions_sustained'
 
     queryset = PredModel.objects.all()
     serializer_class = PredModelSerializer

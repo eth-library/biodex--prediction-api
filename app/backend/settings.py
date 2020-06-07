@@ -41,9 +41,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    # third party
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser',
+    'djoser', # djoser provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
+
+    # own
     "upload",
     "uploadforpredict",
     "uploadforpredict_rest",
@@ -51,15 +55,29 @@ INSTALLED_APPS = [
     "taxonomy_rest",
     "predmodel",
     "predmodel_rest",
-    "images_labelled",
-    "images_labelled_rest",
+    "image",
+    "image_rest",
+    "imageClassification",
+    "imageClassification_rest",
     "frontend",
 ]
 
- # djoser library provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
-
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
+    'DEFAULT_THROTTLE_CLASSES': [
+        'backend.throttles.BurstRateThrottle',
+        'backend.throttles.SustainedRateThrottle',
+        'backend.throttles.AnonBurstRateThrottle',
+        'backend.throttles.AnonSustainedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon_burst':'1/minute',
+        'anon_sustained':'10/hour',
+        'burst': '10/second',
+        'sustained':'100000/day',
+    },
     'DEFAULT_AUTHENTICATION_CLASSES':[
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',

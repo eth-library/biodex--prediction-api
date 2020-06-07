@@ -42,39 +42,62 @@ def load_csv_as_array(fpath, datatype=np.int0, skip_header=True):
     return np.asarray(data, datatype)
 
 
-def load_encoded_hierarchy():
+# def load_encoded_hierarchy(model_record):
     
-    fpath = os.path.join(ASSETS_DIR, 'encoded_hierarchy.csv')
-    hier_enco = load_csv_as_array(fpath, datatype=np.int0, skip_header=True)
+#     # fpath = os.path.join(ASSETS_DIR, 'encoded_hierarchy.csv')
+#     # hier_enco = load_csv_as_array(fpath, datatype=np.int0, skip_header=True)
     
-    return hier_enco
+#     hier_enco = model_record.encoded_hierarchy
+#     # hier_enco = 
+    
+#     return hier_enco
 
 
-def load_class_maps():
+def load_class_maps(model_record):
     
-    fname = 'class_hierarchy_maps.json'
-    fpath = os.path.join(ASSETS_DIR, fname)
-    with open(fpath, 'r') as f:
-        class_maps = json.load(f)
+    # old way was to load from file
+
+    # fname = 'class_hierarchy_maps.json'
+    # fpath = os.path.join(ASSETS_DIR, fname)
+    # with open(fpath, 'r') as f:
+    #     class_maps = json.load(f)
     
-    for k,v in class_maps.items():
-        class_maps[k] = np.array(v)
+    # for k,v in class_maps.items():
+    #     class_maps[k] = np.array(v)
     
+    class_map_str = model_record.class_hierarchy_map
+    class_maps = json.loads(class_map_str)
+
     return class_maps
 
+def load_charfield_as_dict(char_field):
 
-def load_class_codings():
+    lst = json.loads(char_field)
+    array = np.from_list(lst)
 
-    fname = 'class_encodings.json'
-    fpath = os.path.join(ASSETS_DIR, fname)
+    return array
+
+
+def load_charfield_as_numpy(char_field):
+
+    lst = json.loads(char_field)
+    array = np.from_list(lst)
+
+    return array
+
+
+# def load_class_codings():
+
+#     fname = 'class_encodings.json'
+#     fpath = os.path.join(ASSETS_DIR, fname)
     
-    with open(fpath,'r') as f:
-        class_encodings = json.load(f)
+#     with open(fpath,'r') as f:
+#         class_encodings = json.load(f)
     
-    for k,v in class_encodings.items():
-        class_encodings[k] = np.array(v)
+#     for k,v in class_encodings.items():
+#         class_encodings[k] = np.array(v)
 
-    return class_encodings
+#     return class_encodings
 
 
 def load_example_img_dict():
@@ -134,13 +157,13 @@ def calc_top_results(all_class_probas, hier_enco):
     return top_classes, top_probs
 
 
-def process_model_response(model_response):
+def process_model_response(model_record, model_response):
 
     #Load reference files
-    class_maps = load_class_maps()
-    hier_enco = load_encoded_hierarchy()
-    class_encodings = load_class_codings()
-    example_img_dict = load_example_img_dict()
+    class_maps = json.loads(model_record.class_hierarchy_map)
+    hier_enco = load_charfield_as_numpy(model_record.encoded_hierarchy)
+    model_key_map = load_charfield_as_numpy(model.record)
+    # example_img_dict = load_example_img_dict()
 
     # create sorted results
     all_class_probas = calc_class_probas(model_response, class_maps)
@@ -161,39 +184,10 @@ def process_model_response(model_response):
 
         temp_dict = dict(zip(prediction_keys, classes_probs[i]))
         temp_dict['species_key'] = top_classes[i,0]
-        img_lst = example_img_dict[str(temp_dict['species_key'])]
-        temp_dict['example_images'] = img_lst
-        temp_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse
+        # img_lst = example_img_dict[str(temp_dict['species_key'])]
+        # temp_dict['example_images'] = img_lst
+        # temp_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse
         temp_dict['description'] = ""
         predictions[i] = temp_dict
 
     return predictions
-
-
-####!!! Move below functions into views.py ? ####
-
-# #Load reference files
-# class_maps = load_class_maps()
-# hier_enco = load_encoded_hierarchy()
-# class_encodings = load_class_codings()
-# example_img_dict = load_example_img_dict()
-
-# predictions = make_predictions_response(model_response, 
-#                             class_maps, 
-#                             hier_enco, 
-#                             class_encodings, 
-#                             example_img_dict)
-
-
-#run main predictions functions
-# predictions = make_predictions_response(model_response, 
-#                             class_maps, 
-#                             hier_enco, 
-#                             class_encodings, 
-#                             example_img_dict)
-
-# predictions = process_model_response(model_response)
-
-# total_time = time() - strt_time
-# print('execution time: {}'.format(total_time))
-

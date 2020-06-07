@@ -1,3 +1,13 @@
+# Taxonomic Terminology
+
+#### binomial naming
+
+species are named using the binomial format where the combination of the Genus and specific epithet define a species, e.g. Homo sapiens. 
+
+#### sp.
+sp. is used when the genus can be identified but the exact species cannot or does not need to be determined. e.g. Homo sp. refers to some unidentified species of the genus Homo.
+
+
 # Rebuild and Run for Production
 
 remove volumes and stop running containers

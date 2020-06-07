@@ -8,7 +8,7 @@ import json
 
 from uploadforpredict_rest.serializers import PredictImageSerializer
 from uploadforpredict.models import PredictImage
-from uploadforpredict_rest.predict import get_model_prediction
+from uploadforpredict_rest.predict import get_predictions
 
 # from uploadforpredict_rest.prediction_preprocessing import get_model_prediction
 # from uploadforpredict_rest.prediction_postprocessing import process_model_response
