@@ -1,13 +1,14 @@
 {% extends "base_generic.html" %}
+{% load humanize %}
 
 {% block content %}
   <p>Welcome to BioDex, a species classification tool for Taxonomists <em>developed by <a href="https://www.librarylab.ethz.ch/">ETH Library Lab</em></a></p>
-  <h2>Dynamic content</h2>
-  <p>The current classification model includes the following:</p>
+  <h2>Current Model</h2>
+  <p>The current Lepidoptera classification model includes:</p>
   <ul>
-    <li><strong>Families:</strong> {{ num_families }}</li>
-    <li><strong>Families:</strong> {{ num_families }}</li>
-    <li><strong>Families:</strong> {{ num_families }}</li>
-    <li><strong>Families:</strong> {{ num_families }}</li>
+    <li><strong>Families: </strong>{{ num_family|intcomma }}</li>
+    <li><strong>Subfamilies: </strong>{{ num_subfamily|intcomma }}</li>
+    <li><strong>Genera: </strong>{{ num_genus|intcomma }}</li>
+    <li><strong>Species: </strong>{{ num_species|intcomma }}</li>
   </ul>
 {% endblock %}
