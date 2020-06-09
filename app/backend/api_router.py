@@ -11,7 +11,8 @@ router.register(r'^taxonomy/family', FamilyViewset)
 router.register(r'taxonomy/subfamily', SubfamilyViewset)
 router.register(r'taxonomy/genus', GenusViewset)
 router.register(r'^taxonomy/species',SpeciesViewset)
+#media endpoints
+router.register(r'images', ImageViewset)
 #prediction model endpoints
 router.register(r'models', PredModelViewset)
-router.register(r'images/labelled', ImageViewset)
 

@@ -13,17 +13,33 @@ class Image(models.Model):
         MOBILE = 'm', _('Mobile')
         DIGITIZATION = 'd', _('Digitization')
 
-    image = models.ImageField('uploaded image', upload_to='image')
-    image_date = models.DateTimeField('date image was taken', blank=True, null=True)
+    def image_directory_path(instance, filename):
+    # function to dynamically create the file save path 
+    # file will be uploaded to MEDIA_ROOT/image/<collection_name>/<date>/<filename>
+
+        if instance.collection is None:
+            collection_name = ''
+
+        date_fldr = instance.added_date.strftime('%Y_%m_%d')
+        path = 'image/{0}/{1}/'.format(collection_name, date_fldr)
+
+        return os.normpath(path)
+
+
+    image = models.ImageField('uploaded image', upload_to=image_directory_path)
     added_date = models.DateTimeField('datetime image was added to application', auto_now=True)
     added_by = models.ForeignKey(User,on_delete=models.SET_NULL, blank=True, null=True)
+    collection = models.CharField(max_length=200, blank=True, null=True) # name of collection that the image is from
     copyright = models.CharField(max_length=200, blank=True, null=True)
     image_type = models.CharField(max_length=1,
                                 choices=ImageType.choices,
                                 default=ImageType.MOBILE)
-    
+    specimen_id = models.IntegerField(null=True, blank=True) # barcode for identifying physical specimen in the image
+    processed_git_uid = models.CharField(max_length=40) # git short hash code (first 7 digits) for what code version was used to process images, if null, image has not been processed (git rev-parse --short HEAD)
+
     class Meta:
         ordering = ['added_date','image']
 
     def __str__(self):
-        return "{} : {}".format(self.image.name)
+        return "{}".format(self.image)
+
