@@ -221,7 +221,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 MEDIA_UPLOAD_FOLDER = os.path.join(MEDIA_ROOT, "upload")
 MEDIA_EXAMPLE_FOLDER = os.path.join(MEDIA_ROOT, "example")
 
-EXAMPLE_IMAGES_BASE_URL = 'http://0.0.0.0:8000' + MEDIA_URL
+MEDIA_BASE_URL = 'http://0.0.0.0:8000' + MEDIA_URL
 EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions
