@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if [ "$DATABASE" = "mysql" ]
+if [ "$DATABASE" = "postgres" ]
 then
-    echo "Waiting 15s for mysql to start..."
+    echo "Waiting 15s for $DATABASE to start..."
 
     sleep 15 # using while loop with nc (netcat) and mysqladmin fails as packages are not found
     
@@ -11,12 +11,13 @@ then
       # sleep .5
     # done
 
-    echo "assuming MySQL has started"
+    echo "assuming $DATABASE has started"
 fi
 
 
 python manage.py flush --no-input
 python manage.py migrate
 python manage.py collectstatic --no-input --clear
+python3 manage.py createsuperuser
 
 exec "$@"

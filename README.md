@@ -42,11 +42,11 @@ collect any static files
 
 </p>
 
-load fixture files
+load fixture files using the convenience bash script
 
 <p>
 
-    manage.py loaddata <fixturename>
+    docker-compose exec web sh load_fixtures.sh
 
 </p>
 

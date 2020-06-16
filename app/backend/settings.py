@@ -28,9 +28,9 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '127.0.0.1 localhost').split(" ")
 
 # ? assigning env variables here not working
-# DJANGO_SUPERUSER_PASSWORD = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
-# DJANGO_SUPERUSER_USERNAME = os.environ.get("DJANGO_SUPERUSER_USERNAME")
-# DJANGO_SUPERUSER_EMAIL = os.environ.get("DJANGO_SUPERUSER_EMAIL")
+DJANGO_SUPERUSER_PASSWORD = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
+DJANGO_SUPERUSER_USERNAME = os.environ.get("DJANGO_SUPERUSER_USERNAME")
+DJANGO_SUPERUSER_EMAIL = os.environ.get("DJANGO_SUPERUSER_EMAIL")
 
 # Application definition
 
@@ -226,7 +226,7 @@ EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions
 
-TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/{version}/models/resnet_test:predict'
+TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/v1/models/lepidoptera:predict'
 # number of top results to return 
 NUM_RESULTS = 5
 

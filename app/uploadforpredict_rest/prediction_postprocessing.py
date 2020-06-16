@@ -1,4 +1,4 @@
-from backend.settings import MEDIA_BASE_URL
+from backend.settings import MEDIA_BASE_URL, DEBUG
 import json
 import csv
 import os
@@ -153,7 +153,10 @@ def query_example_images(species_key, num_results):
 
 
 def process_model_response(model_record, model_response):
-
+    
+    if DEBUG:
+        print('model returned: ', model_response.status_code)
+        
     #Load reference files
     class_hierarchy_map = json.loads(model_record.class_hierarchy_map)
     hier_enco = load_charfield_as_numpy(model_record.encoded_hierarchy)

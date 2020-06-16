@@ -27,7 +27,7 @@ def get_model_record(model_name):
 def format_model_request(model_record, preprocessed_img):
 
 
-    model_version = getattr(model_record, 'version', 'v1')
+    model_version = model_record.name
     model_url = TENSORFLOW_SERVING_BASE_URL.format(
                         version=model_version,
                         model_name=model_record.name)
@@ -60,7 +60,7 @@ def post_to_model(model_record, preprocessed_img):
                                         headers=headers)
 
     if DEBUG:
-        print(model_api_response)
+        print('model_api_response: ', model_api_response)
     
     return model_api_response
 
@@ -74,6 +74,6 @@ def get_prediction(image_localpath, model_name=None):
     model_record = get_model_record(model_name)
     preprocessed_img = preprocess_img(image_localpath, model_record)
     model_response = post_to_model(model_record, preprocessed_img)
-    predictions = process_model_response(model_response)
+    predictions = process_model_response(model_record, model_response)
 
     return predictions

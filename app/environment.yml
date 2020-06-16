@@ -53,9 +53,9 @@ dependencies:
   - pip:
     - asgiref==3.2.7
     - django==3.0.6
-    - django-mysql==3.5.0
     - django-templated-mail==1.1.1
     - djoser==2.0.3
-    - mysqlclient==1.4.6
+    - psycopg2==2.8.5
+    - psycopg2-binary==2.8.5
 prefix: /home/berry/anaconda3/envs/lepi_api
 

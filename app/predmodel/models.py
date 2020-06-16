@@ -9,7 +9,7 @@ class PredModel(models.Model):
     # Records for Tensorflow Models used for predictions
     # for making predictions, look at the seperate predictions_rest
     # name should be the time that the model was created/trained formatted: YYYYMMDDHHmm eg 202005301230
-    name = models.IntegerField(unique=True)
+    name = models.CharField(max_length=12, unique=True)
     added_by = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
     created_date = models.DateTimeField(auto_now=True) # date that the model was added to Django. Not the date that it was made/trained.
     description = models.CharField(max_length=200, unique=False, null=True, blank=True)

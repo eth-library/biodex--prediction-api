@@ -15,19 +15,17 @@ services:
       - db
       - tf
   db:
-    image: mysql:5.7.5
-    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci
+    image: postgres:12.0-alpine
     volumes:
-      - mysql_data:/var/lib/mysql_data/data/
+      - postgres_data:/var/lib/postgresql/data/
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_USER=hello_django
-      - MYSQL_PASSWORD=hello_django
-      - MYSQL_DATABASE=hello_django_dev
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=hello_pass
+      - POSTGRES_DB=biodex_dev
   tf:
     image: biodex/prediction_model:latest
     ports:
       - 8501:8501
 
 volumes:
-  mysql_data:
+  postgres_data:
