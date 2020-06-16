@@ -13,8 +13,7 @@ router.register(r'taxonomy/subfamily', SubfamilyViewset)
 router.register(r'taxonomy/genus', GenusViewset)
 router.register(r'^taxonomy/species',SpeciesViewset)
 #media endpoints
-router.register(r'images/labels', ImageClassificationViewset)
+router.register(r'images/classifications', ImageClassificationViewset)
 router.register(r'images', ImageViewset)
 #prediction model endpoints
 router.register(r'models', PredModelViewset)
-

@@ -1,8 +1,9 @@
 import requests
 import json
 import numpy as np
-from backend.settings import TENSORFLOW_SERVING_BASE_URL
 
+from backend.settings import TENSORFLOW_SERVING_BASE_URL, DEBUG
+from predmodel.models import PredModel
 from uploadforpredict_rest.prediction_preprocessing import preprocess_img
 from uploadforpredict_rest.prediction_postprocessing import process_model_response
 
@@ -16,7 +17,7 @@ def get_model_record(model_name):
     if model_name == None:
         # use the latest pushed model
         model_record = PredModel.objects.last()
-
+        print(model_record.__dict__)
     else:
         model_record = PredModel.objects.filter(name=model_name)[0]
 
@@ -48,15 +49,23 @@ def post_to_model(model_record, preprocessed_img):
     
     request_params = format_model_request(model_record, preprocessed_img)
     model_url, request_data, headers = request_params
-        
+
+    if DEBUG:
+        print('model_url: ', model_url)
+        print('headers: ', headers)
+        print('request_data: ', str(request_data)[:100],' ...')
+
     model_api_response = requests.post(model_url, 
-                                        data=data, 
+                                        data=request_data, 
                                         headers=headers)
 
+    if DEBUG:
+        print(model_api_response)
+    
     return model_api_response
 
 
-def get_predictions(image_localpath, model_name):
+def get_prediction(image_localpath, model_name=None):
     """
     loads a locally saved image and posts to the model server to get prediction results
     image_localpath: 

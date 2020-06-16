@@ -25,7 +25,7 @@ services:
       - MYSQL_PASSWORD=hello_django
       - MYSQL_DATABASE=hello_django_dev
   tf:
-    image: serving_test:latest
+    image: biodex/prediction_model:latest
     ports:
       - 8501:8501
 

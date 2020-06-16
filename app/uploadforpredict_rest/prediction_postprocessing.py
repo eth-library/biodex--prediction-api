@@ -1,3 +1,4 @@
+from backend.settings import MEDIA_BASE_URL
 import json
 import csv
 import os
@@ -13,10 +14,9 @@ strt_time = time()
 BASE_DIR = os.path.join(curdir, '..')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploaded_media')
-MEDIA_URL = '/media/2017_03_10R/'
+
 ASSETS_DIR = os.path.join(BASE_DIR, 'backend/assets')
 EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
-EXAMPLE_IMAGES_BASE_URL = 'http://0.0.0.0:8000' + MEDIA_URL
 
 HIER_ORDER = ['species', 'genus', 'subfamily', 'family']
 prob_order = [x+'_prob' for x in HIER_ORDER]
@@ -53,7 +53,7 @@ def load_csv_as_array(fpath, datatype=np.int0, skip_header=True):
 #     return hier_enco
 
 
-def load_class_maps(model_record):
+def load_class_hierarchy_map(model_record):
     
     # old way was to load from file
 
@@ -66,9 +66,9 @@ def load_class_maps(model_record):
     #     class_maps[k] = np.array(v)
     
     class_map_str = model_record.class_hierarchy_map
-    class_maps = json.loads(class_map_str)
+    class_hierarchy_map = json.loads(class_map_str)
 
-    return class_maps
+    return class_hierarchy_map
 
 def load_charfield_as_dict(char_field):
 
@@ -85,19 +85,6 @@ def load_charfield_as_numpy(char_field):
 
     return array
 
-
-# def load_class_codings():
-
-#     fname = 'class_encodings.json'
-#     fpath = os.path.join(ASSETS_DIR, fname)
-    
-#     with open(fpath,'r') as f:
-#         class_encodings = json.load(f)
-    
-#     for k,v in class_encodings.items():
-#         class_encodings[k] = np.array(v)
-
-#     return class_encodings
 
 
 def load_example_img_dict():
@@ -121,7 +108,7 @@ def softmax(x):
     return e_x / e_x.sum()
 
 
-def calc_class_probas(model_response, class_maps):
+def calc_class_probas(model_response, class_hierarchy_map):
     """
     sum up the probabilites at each hierarchical level
     """
@@ -133,7 +120,7 @@ def calc_class_probas(model_response, class_maps):
         
         parent_key = HIER_ORDER[i]
         child_key = HIER_ORDER[i-1]
-        probas[parent_key] = np.bincount(class_maps[parent_key], probas[child_key])
+        probas[parent_key] = np.bincount(class_hierarchy_map[parent_key], weights=probas[child_key])
 
     return probas
 
@@ -157,19 +144,28 @@ def calc_top_results(all_class_probas, hier_enco):
     return top_classes, top_probs
 
 
+def query_example_images(species_key, num_results):
+    
+    qs = Image.objects.filter(imageclassification__species_key=1000)
+    res = qs.values('image').distinct()[:num_results].values()
+
+    return [MEDIA_BASE_URL + obj['image'] for obj in res]
+
+
 def process_model_response(model_record, model_response):
 
     #Load reference files
-    class_maps = json.loads(model_record.class_hierarchy_map)
+    class_hierarchy_map = json.loads(model_record.class_hierarchy_map)
     hier_enco = load_charfield_as_numpy(model_record.encoded_hierarchy)
     model_key_map = load_charfield_as_numpy(model.record)
-    # example_img_dict = load_example_img_dict()
 
     # create sorted results
-    all_class_probas = calc_class_probas(model_response, class_maps)
+    all_class_probas = calc_class_probas(model_response, class_hierarchy_map)
     top_classes, top_probs = calc_top_results(all_class_probas, hier_enco)
     
-    top_classes_str = np.array([class_encodings[HIER_ORDER[i]][top_classes[:,i]] for i in range(len(HIER_ORDER))])
+    # subscript the hierarchy order to get the class names
+    top_classes_str = [class_encodings[HIER_ORDER[i]][top_classes[:,i]] for i in range(len(HIER_ORDER))]
+    top_classes_str = np.array()
     top_classes_str = top_classes_str.transpose()
 
     #join the rows of the array of classes names and the array of probabilities together
@@ -184,8 +180,7 @@ def process_model_response(model_record, model_response):
 
         temp_dict = dict(zip(prediction_keys, classes_probs[i]))
         temp_dict['species_key'] = top_classes[i,0]
-        # img_lst = example_img_dict[str(temp_dict['species_key'])]
-        # temp_dict['example_images'] = img_lst
+        temp_dict['example_images'] = query_example_images(species_key, num_results)
         # temp_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse
         temp_dict['description'] = ""
         predictions[i] = temp_dict

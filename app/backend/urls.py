@@ -6,7 +6,8 @@ from django.conf.urls import url, include
 
 from .api_router import router
 from uploadforpredict_rest.views import predict_image_view
-
+from imageClassification_rest.viewsets import get_example_images
+from taxonomy_rest.viewsets import query_species_name
 
 from frontend.urls import urlpatterns as fe_urlpatterns
 
@@ -18,6 +19,8 @@ urlpatterns = [
     path("api/auth/", include("djoser.urls")),
 
     url(r"^api/predict", predict_image_view),
+    url(r'^api/example_images', get_example_images),
+    url(r'^api/query_species', query_species_name)
 ]
 
 urlpatterns += fe_urlpatterns

@@ -5,10 +5,11 @@ from rest_framework.response import Response
 from time import time
 import os
 import json
+from PIL import Image
 
 from uploadforpredict_rest.serializers import PredictImageSerializer
 from uploadforpredict.models import PredictImage
-from uploadforpredict_rest.predict import get_predictions
+from uploadforpredict_rest.predict import get_prediction
 
 # from uploadforpredict_rest.prediction_preprocessing import get_model_prediction
 # from uploadforpredict_rest.prediction_postprocessing import process_model_response
@@ -32,26 +33,31 @@ def predict_image_view(request):
             serializer.save()
             #get prediction for posted image
             response_data = serializer.data
-            # request_string = str(request.data)
+            if DEBUG:
+                request_string = str(request.data)
+                print(request_string)
+                im = Image.open(request.data['image'])
+                print(im)
+
             serialized_fname = os.path.basename(serializer.data['image'])
 
             uploaded_img_path = MEDIA_ROOT + '/' +  serialized_fname
 
             if FAKE_MODEL_RESPONSE:
                 response_data = {}
-                model_api_response = get_model_prediction(uploaded_img_path)
+                model_api_response = get_prediction(uploaded_img_path, model_name=None)
 
                 if model_api_response.status_code == 206:
                     predictions_data = {'fake prediction':{'predictions':str([912,1,2,2,1,2,3,4])}}
                 
             else:
-                model_api_response = get_model_prediction(uploaded_img_path)
+                model_api_response = get_prediction(uploaded_img_path, model_name=None)
 
                 if model_api_response.status_code == 200:
 
                     if DEBUG:
-                        print('logging: serializer.is_valid')                       
-                    
+                        print('logging: serializer.is_valid')
+
                     model_api_json_resp = json.loads(model_api_response.text)
                     #possible to post a list of images to the model endpoint, but we only handle 1 image so use 0th reponse
                     model_prediction = model_api_json_resp['predictions'][0]

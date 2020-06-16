@@ -73,7 +73,7 @@ REST_FRAMEWORK = {
         'backend.throttles.AnonSustainedRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon_burst':'1/minute',
+        'anon_burst':'2/minute',
         'anon_sustained':'10/hour',
         'burst': '10/second',
         'sustained':'100000/day',
@@ -226,7 +226,7 @@ EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions
 
-TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/{version}/models/{model_name}:predict'
+TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/{version}/models/resnet_test:predict'
 # number of top results to return 
 NUM_RESULTS = 5
 

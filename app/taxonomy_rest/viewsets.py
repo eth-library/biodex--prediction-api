@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
 from rest_framework import generics
 from rest_framework import permissions
 from taxonomy.models import Family, Subfamily, Genus, Species
@@ -85,3 +86,23 @@ class SpeciesViewset(viewsets.ModelViewSet):
             return qs.filter(parent=qs_genus_id)
       
         return qs
+
+
+@api_view(['GET'])
+def query_species_name(request):
+
+    if request.method == 'GET':
+
+        req_data = request.data
+        req_species = req_data['species']
+        prts = req_species.split('%20')
+        print(req_species)
+        genus = prts[0]
+        epithet = prts[1]
+        print(genus)
+        print(epithet)
+
+        qs = Species.objects.filter(parent__name=genus).filter(name=epithet)
+        # qs = Species.objects.filter(parent__name='Archon').filter(name='apollinus')
+    
+    return qs

@@ -42,6 +42,14 @@ collect any static files
 
 </p>
 
+load fixture files
+
+<p>
+
+    manage.py loaddata <fixturename>
+
+</p>
+
 create a admin/superuser in the django app
 
 <p>
@@ -50,6 +58,13 @@ create a admin/superuser in the django app
 
 </p>
 
+open an interactive shell on a running container
+
+<p>
+
+    docker exec -it <container-number> /bin/bash
+
+</p>
 
 ## Check
     Upload an image at http://localhost:1337/.
@@ -95,6 +110,24 @@ Uses gunicorn + nginx.
 
 # Prediction Model
 
+#make sure that the that you want to containerize is saved in the models folder in the tf.saved_model format and with a numerical folder name
+ 
+## Embed model in a Docker Image 
+__(reference https://www.tensorflow.org/tfx/serving/docker)__  
+Go to model_serving folder and run:
+
+    bash make_docker_image.sh
+
+this convenience script pulls the tensorflow serving base image, adds the selected model from the local models folder, and creates a new image tagged with latest & the model number (see Dockerfile for more details
+
+## run the container
+docker run -p 8501:8501 [DOCKER_IMAGE_NAME]
+
+#this exposes an endpoint that can be used for predictions
+
+SERVER_URL = 'http://localhost:8501/v1/models/[DOCKER_IMAGE_NAME]:predict'
+
+
 ## things that are needed by the model for predictions
 
   
@@ -137,3 +170,4 @@ curl -X POST -d '{"username": "admin","password": "1234"}' -H 'Content-Type: app
 ## Using  Token 
 curl -X POST http://127.0.0.1:8000/api/predict/ -H 'Authorization: Token a21e26bd12a16542f940d641e840e32ad16a26d0' [{"id":1,"name":"admin"]
 
+c9a99f38165fceea9697170e2d2a162825621048

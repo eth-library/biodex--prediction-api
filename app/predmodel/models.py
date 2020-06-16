@@ -1,12 +1,17 @@
 from django.db import models
 from taxonomy.models import Species
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class PredModel(models.Model):
-    # Tensorflow Models used for predictions
+    # Records for Tensorflow Models used for predictions
+    # for making predictions, look at the seperate predictions_rest
     # name should be the time that the model was created/trained formatted: YYYYMMDDHHmm eg 202005301230
     name = models.IntegerField(unique=True)
-    date_added = models.DateTimeField(auto_now=True) # date that the model was added to Django. Not the date that it was made/trained.
+    added_by = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
+    created_date = models.DateTimeField(auto_now=True) # date that the model was added to Django. Not the date that it was made/trained.
     description = models.CharField(max_length=200, unique=False, null=True, blank=True)
     #values for image rgb mean and standard deviation. Used in prediction preprocessing
     rgb_mean_values = models.CharField(max_length=200, null=False, blank=False, default="[0, 0, 0]")
