@@ -39,11 +39,11 @@ def normalize_image(img_array, mean_rgb, stddev_rgb):
     return img_array_norm
 
 
-def preprocess_img(image_localpath, model_record):
+def preprocess_img(image_path_or_stream, model_record):
 
-    img = Image.open(image_localpath)
+    img = Image.open(image_path_or_stream)
     img = np.array(img)
-    
+
     mean_rgb, stddev_rgb = get_model_rgb_mean_and_stddev(model_record)
     img = normalize_image(img, mean_rgb, stddev_rgb)
     img = img.tolist()

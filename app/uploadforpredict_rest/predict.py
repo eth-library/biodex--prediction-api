@@ -65,14 +65,14 @@ def post_to_model(model_record, preprocessed_img):
     return model_api_response
 
 
-def get_prediction(image_localpath, model_name=None):
+def get_prediction(img_path_or_stream, model_name=None):
     """
     loads a locally saved image and posts to the model server to get prediction results
     image_localpath: 
     """
 
     model_record = get_model_record(model_name)
-    preprocessed_img = preprocess_img(image_localpath, model_record)
+    preprocessed_img = preprocess_img(img_path_or_stream, model_record)
     model_response = post_to_model(model_record, preprocessed_img)
     predictions = process_model_response(model_record, model_response)
 

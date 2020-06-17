@@ -221,6 +221,6 @@ def process_model_response(model_record, model_response):
         res_dict['example_images'] = img_lst
         res_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse
         res_dict['description'] = ""
-        predictions[i] = res_dict
+        predictions[i] = temp_dict
 
     return predictions
