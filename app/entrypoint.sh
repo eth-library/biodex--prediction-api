@@ -14,9 +14,9 @@ then
 fi
 
 
-# python manage.py flush --no-input
-# python manage.py migrate
-# python manage.py collectstatic --no-input --clear
+python manage.py flush --no-input
+python manage.py migrate
+python manage.py collectstatic --no-input --clear
 # python3 manage.py createsuperuser --no-input username=$DJANGO_SUPERUSER_USERNAME password=$DJANGO_SUPERUSER_PASSWORD EmailField=$DJANGO_SUPERUSER_EMAIL
 
 exec "$@"
