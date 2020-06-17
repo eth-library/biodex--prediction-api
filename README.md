@@ -7,8 +7,32 @@ species are named using the binomial format where the combination of the Genus a
 #### sp.
 sp. is used when the genus can be identified but the exact species cannot or does not need to be determined. e.g. Homo sp. refers to some unidentified species of the genus Homo.
 
+## save local docker image and transfer to server
+
+save docker image as a tar file
+
+<p>
+
+    docker save -o <path to generated file.tar> <image name>
+
+</p>
+
+Then copy your image to the host server with regular file transfer tools such as cp, scp.  
+Then load the image into Docker:
+
+    docker load -i <path to image tar file>
 
 # Rebuild and Run for Production
+
+generate new secret keys
+
+<p>
+
+    from django.core.management.utils import get_random_secret_key
+
+    print(get_random_secret_key())
+
+</p>
 
 remove volumes and stop running containers
 
@@ -42,11 +66,11 @@ collect any static files
 
 </p>
 
-load fixture files using the convenience bash script
+if needed, open an interactive shell on a running container
 
 <p>
 
-    docker-compose exec web sh load_fixtures.sh
+    docker exec -it <container-number> /bin/bash
 
 </p>
 
@@ -58,13 +82,15 @@ create a admin/superuser in the django app
 
 </p>
 
-open an interactive shell on a running container
+
+load fixture files using the convenience bash script
 
 <p>
 
-    docker exec -it <container-number> /bin/bash
+    docker-compose exec web sh load_fixtures.sh
 
 </p>
+
 
 connect to an interactive shell for the postgres database
 

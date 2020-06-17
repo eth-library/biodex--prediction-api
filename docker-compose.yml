@@ -20,7 +20,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=hello_pass
+      - POSTGRES_PASSWORD=lepi_pass
       - POSTGRES_DB=biodex_dev
   tf:
     image: biodex/prediction_model:latest

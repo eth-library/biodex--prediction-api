@@ -15,15 +15,13 @@ services:
       - ./.env.prod
     depends_on:
       - db
-    # restart: always
+    restart: always
   db:
-    image: mysql:5.7.5
-    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci
+    image: postgres:12.0-alpine
     volumes:
-      - mysql_data:/var/lib/mysql2/data/
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env.prod.db
-    # restart: always
   nginx:
     build: ./nginx
     volumes:
@@ -36,6 +34,6 @@ services:
     # restart: always
 
 volumes:
-  mysql_data:
+  postgres_data:
   static_volume:
   media_volume:
