@@ -66,6 +66,14 @@ open an interactive shell on a running container
 
 </p>
 
+connect to an interactive shell for the postgres database
+
+<p>
+
+    docker-compose exec db psql --username=admin --dbname=biodex_dev
+
+</p>
+
 ## Check
     Upload an image at http://localhost:1337/.
     Then, view the image at http://localhost:1337/mediafiles/IMAGE_FILE_NAME

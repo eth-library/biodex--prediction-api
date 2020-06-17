@@ -11,8 +11,6 @@ from uploadforpredict_rest.serializers import PredictImageSerializer
 from uploadforpredict.models import PredictImage
 from uploadforpredict_rest.predict import get_prediction
 
-# from uploadforpredict_rest.prediction_preprocessing import get_model_prediction
-# from uploadforpredict_rest.prediction_postprocessing import process_model_response
 from backend.settings import MEDIA_ROOT, ASSETS_DIR, DEBUG
 
 FAKE_MODEL_RESPONSE = False
@@ -51,30 +49,20 @@ def predict_image_view(request):
                     predictions_data = {'fake prediction':{'predictions':str([912,1,2,2,1,2,3,4])}}
                 
             else:
-                model_api_response = get_prediction(uploaded_img_path, model_name=None)
+                predictions_data = get_prediction(uploaded_img_path, model_name=None)
 
-                if model_api_response.status_code == 200:
-
-                    if DEBUG:
-                        print('logging: serializer.is_valid')
-
-                    model_api_json_resp = json.loads(model_api_response.text)
-                    #possible to post a list of images to the model endpoint, but we only handle 1 image so use 0th reponse
-                    model_prediction = model_api_json_resp['predictions'][0]
-                    # process model response and create predictions dictionary with example images
-                    predictions_data = process_model_response(model_prediction)
+                if predictions_data:
+                    pass
 
                 else:
-                    #handle this error somehow
-                    # return HTTP bad response e.g.
                     if DEBUG:
                         print('logging: error with model prediction')
-                        
+
+                    #handle this error somehow # return HTTP bad response e.g.                        
                     return Response('prediction model error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
             response_data['uploaded_image_saved_name']  = serialized_fname
 
-            # response_data['request_string'] = request_string
             response_data['predictions'] = predictions_data
             # response_data['model'] = MODEL_NAME + '_' + MODEL_VERSION
             response_data['exec_time'] = str(time() - strt_time) + ' s'

@@ -6,6 +6,8 @@ import numpy as np
 from pprint import pprint
 from time import time
 
+from taxonomy.models import Family, Subfamily, Genus, Species
+from image.models import Image
 
 curdir = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,6 +24,7 @@ HIER_ORDER = ['species', 'genus', 'subfamily', 'family']
 prob_order = [x+'_prob' for x in HIER_ORDER]
 prediction_keys = HIER_ORDER + prob_order
 NUM_RESULTS = 5
+NUM_EXAMPLE_IMAGES = 5
 
 
 def load_csv_as_array(fpath, datatype=np.int0, skip_header=True):
@@ -108,13 +111,13 @@ def softmax(x):
     return e_x / e_x.sum()
 
 
-def calc_class_probas(model_response, class_hierarchy_map):
+def calc_class_probas(model_raw_response, class_hierarchy_map):
     """
     sum up the probabilites at each hierarchical level
     """
 
     probas = {}
-    probas[HIER_ORDER[0]] = softmax(model_response)
+    probas[HIER_ORDER[0]] = softmax(model_raw_response)
 
     for i in range(1, len(HIER_ORDER)):
         
@@ -143,11 +146,27 @@ def calc_top_results(all_class_probas, hier_enco):
 
     return top_classes, top_probs
 
+def query_db_to_make_dict_of_taxonomy_names(species_key):
+    
+    res_dict = {}
 
-def query_example_images(species_key, num_results):
+    s = Species.objects.get(id=species_key)
+    g = Genus.objects.get(species=s.id)
+    sf = Subfamily.objects.get(genus=g.id)
+    f = Family.objects.get(subfamily=sf.id)
+
+    res_dict['species'] = s.name
+    res_dict['genus'] = g.name
+    res_dict['subfamily'] = sf.name
+    res_dict['family'] = f.name
+
+    return res_dict
+
+
+def query_example_images(species_key, num_images):
     
     qs = Image.objects.filter(imageclassification__species_key=1000)
-    res = qs.values('image').distinct()[:num_results].values()
+    res = qs.values('image').distinct()[:num_images].values()
 
     return [MEDIA_BASE_URL + obj['image'] for obj in res]
 
@@ -156,36 +175,52 @@ def process_model_response(model_record, model_response):
     
     if DEBUG:
         print('model returned: ', model_response.status_code)
-        
+    
+    model_response_dict = json.loads(model_response.text)
+    model_raw_values = model_response_dict['predictions'][0]  #these model values are known as logits
+
+    if DEBUG:
+        print('model_raw_values: ', str(model_raw_values[:15])[:-1], ' ...')
+
     #Load reference files
-    class_hierarchy_map = json.loads(model_record.class_hierarchy_map)
-    hier_enco = load_charfield_as_numpy(model_record.encoded_hierarchy)
-    model_key_map = load_charfield_as_numpy(model.record)
+    class_hierarchy_map = model_record.class_hierarchy_map
+    hier_enco = np.array(model_record.encoded_hierarchy)
+    model_key_map = model_record.species_key_map
 
     # create sorted results
-    all_class_probas = calc_class_probas(model_response, class_hierarchy_map)
-    top_classes, top_probs = calc_top_results(all_class_probas, hier_enco)
-    
-    # subscript the hierarchy order to get the class names
-    top_classes_str = [class_encodings[HIER_ORDER[i]][top_classes[:,i]] for i in range(len(HIER_ORDER))]
-    top_classes_str = np.array()
-    top_classes_str = top_classes_str.transpose()
+    all_class_probas = calc_class_probas(model_raw_values, class_hierarchy_map)
+    top_model_classes, top_probs = calc_top_results(all_class_probas, hier_enco)
+
+    top_db_classes = [model_key_map[str(m_key[0])] for m_key in top_model_classes]
+
+    if DEBUG:
+        print('all_class_probas: ', all_class_probas)
+        print('top_probs : ', top_probs)
+        print('top_classes : ', top_model_classes)
+        print('top_db_classes: ', top_db_classes)
+
 
     #join the rows of the array of classes names and the array of probabilities together
-    classes_probs = np.hstack((top_classes_str, top_probs))
-    classes_probs = classes_probs.tolist() 
+    # classes_probs = np.hstack((top_classes_str, top_probs))
+    # classes_probs = classes_probs.tolist()
 
     #loop over the classes_probs list to assemble the predictions part of the json response
     predictions = {}
-    prediction_keys = HIER_ORDER + prob_order
 
-    for i in range(len(classes_probs)):
-
-        temp_dict = dict(zip(prediction_keys, classes_probs[i]))
-        temp_dict['species_key'] = top_classes[i,0]
-        temp_dict['example_images'] = query_example_images(species_key, num_results)
-        # temp_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse
-        temp_dict['description'] = ""
-        predictions[i] = temp_dict
+    prob_order = ['species_prob', 'genus_prob', 'subfamily_prob', 'family_prob']
+    
+    for i, species_key in enumerate(top_db_classes):
+        
+        res_dict = query_db_to_make_dict_of_taxonomy_names(species_key)
+        print(res_dict)
+        probs_dict = dict(zip(prob_order, top_probs[i,:].tolist()))
+        res_dict.update(probs_dict)
+        print(res_dict)
+        # temp_dict['species_key'] = top_classes[i,0]
+        img_lst = query_example_images(species_key, NUM_EXAMPLE_IMAGES)
+        res_dict['example_images'] = img_lst
+        res_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse
+        res_dict['description'] = ""
+        predictions[i] = res_dict
 
     return predictions
