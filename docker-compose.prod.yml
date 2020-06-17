@@ -28,10 +28,10 @@ services:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
     ports:
-      - 1337:80
+      - 52500:80
     depends_on:
       - web
-    # restart: always
+    restart: always
 
 volumes:
   postgres_data:

@@ -7,6 +7,14 @@ species are named using the binomial format where the combination of the Genus a
 #### sp.
 sp. is used when the genus can be identified but the exact species cannot or does not need to be determined. e.g. Homo sp. refers to some unidentified species of the genus Homo.
 
+
+# Main Deployment Steps
+
+1. log in to server & pull codebase from remote git repo
+2. save local prediction docker image as tar, transfer to server and load with docker
+3. transfer image, fixture files, static files etc.
+4. transfer env variable files
+
 ## save local docker image and transfer to server
 
 save docker image as a tar file

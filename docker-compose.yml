@@ -1,5 +1,7 @@
 version: '3.7'
 
+COMPOSE_PROJECT_NAME: 'biodex'
+
 services:
 
   web:
@@ -8,7 +10,7 @@ services:
     volumes:
       - ./app/:/usr/src/app/
     ports:
-      - 8000:8000
+      - 52500:8000
     env_file:
       - ./.env.dev
     depends_on:
