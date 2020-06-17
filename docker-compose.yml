@@ -1,7 +1,5 @@
 version: '3.7'
 
-COMPOSE_PROJECT_NAME: 'biodex'
-
 services:
 
   web:
