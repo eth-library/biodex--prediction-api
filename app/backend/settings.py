@@ -15,11 +15,10 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "foo")
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
@@ -221,7 +220,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 MEDIA_UPLOAD_FOLDER = os.path.join(MEDIA_ROOT, "upload")
 MEDIA_EXAMPLE_FOLDER = os.path.join(MEDIA_ROOT, "example")
 
-MEDIA_BASE_URL = 'http://0.0.0.0:8000' + MEDIA_URL
+MEDIA_BASE_URL = ALLOWED_HOSTS[-1] + MEDIA_URL
 EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions

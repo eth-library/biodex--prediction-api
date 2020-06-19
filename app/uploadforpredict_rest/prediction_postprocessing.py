@@ -45,28 +45,8 @@ def load_csv_as_array(fpath, datatype=np.int0, skip_header=True):
     return np.asarray(data, datatype)
 
 
-# def load_encoded_hierarchy(model_record):
-    
-#     # fpath = os.path.join(ASSETS_DIR, 'encoded_hierarchy.csv')
-#     # hier_enco = load_csv_as_array(fpath, datatype=np.int0, skip_header=True)
-    
-#     hier_enco = model_record.encoded_hierarchy
-#     # hier_enco = 
-    
-#     return hier_enco
-
 
 def load_class_hierarchy_map(model_record):
-    
-    # old way was to load from file
-
-    # fname = 'class_hierarchy_maps.json'
-    # fpath = os.path.join(ASSETS_DIR, fname)
-    # with open(fpath, 'r') as f:
-    #     class_maps = json.load(f)
-    
-    # for k,v in class_maps.items():
-    #     class_maps[k] = np.array(v)
     
     class_map_str = model_record.class_hierarchy_map
     class_hierarchy_map = json.loads(class_map_str)
@@ -87,7 +67,6 @@ def load_charfield_as_numpy(char_field):
     array = np.from_list(lst)
 
     return array
-
 
 
 def load_example_img_dict():
@@ -199,15 +178,10 @@ def process_model_response(model_record, model_response):
         print('top_classes : ', top_model_classes)
         print('top_db_classes: ', top_db_classes)
 
-
-    #join the rows of the array of classes names and the array of probabilities together
-    # classes_probs = np.hstack((top_classes_str, top_probs))
-    # classes_probs = classes_probs.tolist()
+    predictions = {}
+    prob_order = ['species_prob', 'genus_prob', 'subfamily_prob', 'family_prob']
 
     #loop over the classes_probs list to assemble the predictions part of the json response
-    predictions = {}
-
-    prob_order = ['species_prob', 'genus_prob', 'subfamily_prob', 'family_prob']
     
     for i, species_key in enumerate(top_db_classes):
         
@@ -216,7 +190,7 @@ def process_model_response(model_record, model_response):
         probs_dict = dict(zip(prob_order, top_probs[i,:].tolist()))
         res_dict.update(probs_dict)
         print(res_dict)
-        # temp_dict['species_key'] = top_classes[i,0]
+
         img_lst = query_example_images(species_key, NUM_EXAMPLE_IMAGES)
         res_dict['example_images'] = img_lst
         res_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse

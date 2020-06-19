@@ -1,6 +1,12 @@
+from rest_framework import status
+from rest_framework.response import Response
+
+
 import requests
 import json
 import numpy as np
+
+
 
 from backend.settings import TENSORFLOW_SERVING_BASE_URL, DEBUG
 from predmodel.models import PredModel
@@ -17,7 +23,7 @@ def get_model_record(model_name):
     if model_name == None:
         # use the latest pushed model
         model_record = PredModel.objects.last()
-        print(model_record.__dict__)
+
     else:
         model_record = PredModel.objects.filter(name=model_name)[0]
 
@@ -72,8 +78,17 @@ def get_prediction(img_path_or_stream, model_name=None):
     """
 
     model_record = get_model_record(model_name)
-    preprocessed_img = preprocess_img(img_path_or_stream, model_record)
-    model_response = post_to_model(model_record, preprocessed_img)
-    predictions = process_model_response(model_record, model_response)
+    if model_record is None:
+        return Response("record for requested prediction model was not found", status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    return predictions
+    preprocessed_img = preprocess_img(img_path_or_stream, model_record)
+    
+    model_response = post_to_model(model_record, preprocessed_img)
+    if DEBUG:
+        print('model_response: ', model_response.status_code)
+    if model_response.status_code != 200:     
+        return Response(model_response.content, model_response.status_code)
+
+    prediction_response = process_model_response(model_record, model_response)
+
+    return Response(prediction_response, status=200)
