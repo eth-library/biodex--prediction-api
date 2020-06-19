@@ -198,4 +198,4 @@ def process_model_response(model_record, model_response):
         res_dict['description'] = ""
         predictions[i] = res_dict
 
-    return predictions_data
+    return predictions
