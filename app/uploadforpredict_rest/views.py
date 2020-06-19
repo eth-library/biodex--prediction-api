@@ -57,4 +57,4 @@ def predict_image_view(request):
             # response_data['model'] = MODEL_NAME + '_' + MODEL_VERSION
             response_data['exec_time'] = str(time() - strt_time) + ' s'
             
-            return Response(response_data, status=status.HTTP_201)
+            return Response(response_data, status=status.HTTP_201_CREATED)
