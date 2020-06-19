@@ -47,15 +47,14 @@ def predict_image_view(request):
             #preprocess, send to model & process model results
             predictions_response = get_prediction(img_stream, model_name=None)
 
-            if str(predictions_response.status_code)[0] != 2:
-
+            if predictions_response.status_code != 200:
                 return predictions_response
 
             response_data = {}
             response_data['uploaded_image_saved_name']  = serialized_fname
 
-            response_data['predictions'] = predictions_response.text
+            response_data['predictions'] = predictions_response.data
             # response_data['model'] = MODEL_NAME + '_' + MODEL_VERSION
             response_data['exec_time'] = str(time() - strt_time) + ' s'
             
-            return Response(response_data, status=status.HTTP_201_CREATED)
+            return Response(response_data, status=status.HTTP_201)

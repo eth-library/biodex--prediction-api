@@ -125,6 +125,7 @@ def calc_top_results(all_class_probas, hier_enco):
 
     return top_classes, top_probs
 
+
 def query_db_to_make_dict_of_taxonomy_names(species_key):
     
     res_dict = {}
@@ -197,4 +198,4 @@ def process_model_response(model_record, model_response):
         res_dict['description'] = ""
         predictions[i] = res_dict
 
-    return predictions
+    return predictions_data

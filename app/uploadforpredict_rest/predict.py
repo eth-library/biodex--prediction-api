@@ -89,6 +89,6 @@ def get_prediction(img_path_or_stream, model_name=None):
     if model_response.status_code != 200:     
         return Response(model_response.content, model_response.status_code)
 
-    prediction_response = process_model_response(model_record, model_response)
+    prediction_processed_data = process_model_response(model_record, model_response)
 
-    return Response(prediction_response, status=200)
+    return Response(prediction_processed_data, status=200)
