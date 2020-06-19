@@ -12,8 +12,8 @@
     
     <div class="input-group">
       <div class="custom-file">
-        <input type="file" name="image_file" class="custom-file-input" id="inputGroupImageFile">
-        <label class="custom-file-label" for="inputGroupImageFile">{{ image_name }} </label>
+        <input type="file" name="image_file" class="custom-file-input" id="inputGroupImageFile" onchange="updateElementWithFilename('imageNameLabel', this.value)">
+        <label class="custom-file-label" id="imageNameLabel" for="inputGroupImageFile">{{ image_name }}</label>
       </div>
       <div class="input-group-append">
         <button class="btn btn-outline-primary" value="submit" type="submit">Upload</button>
@@ -26,5 +26,19 @@
 
     <hr>
   </form>
+
+<script>
+  
+  
+  var getfname = function (str) {
+    return str.split('\\').pop().split('/').pop();
+  }
+
+  var updateElementWithFilename = function(elId, filepath) {
+    fname = getfname(filepath)
+    document.getElementById(elId).innerHTML = fname
+  }
+
+</script>
 
 {% endblock %}
