@@ -1,4 +1,6 @@
 from backend.settings import MEDIA_BASE_URL, DEBUG
+from django.core.files.storage import FileSystemStorage
+
 import json
 import csv
 import os
@@ -145,10 +147,12 @@ def query_db_to_make_dict_of_taxonomy_names(species_key):
 
 def query_example_images(species_key, num_images):
     
-    qs = Image.objects.filter(imageclassification__species_key=1000)
-    res = qs.values('image').distinct()[:num_images].values()
+    fs = FileSystemStorage()
 
-    return [MEDIA_BASE_URL + obj['image'] for obj in res]
+    qs = Image.objects.filter(imageclassification__species_key=species_key)
+    res = qs.values('image').distinct()[:num_images].values()
+    
+    return [fs.url(obj['image']) for obj in res]
 
 
 def process_model_response(model_record, model_response):

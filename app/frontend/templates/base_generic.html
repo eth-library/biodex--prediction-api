@@ -27,15 +27,6 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'about' %}">About</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">
-              {% if user.is_authenticated %}
-                Log Out
-              {% else %}
-                Log In
-              {% endif %}
-            </a>
-          </li>
           {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'upload' %}">Upload</a>
@@ -44,7 +35,16 @@
               <a class="nav-link" href="{% url 'predict' %}">Predict</a>
             </li>
           {% endif %}
-          <!-- <li class="nav-item dropdown">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">
+                {% if user.is_authenticated %}
+                  Log Out
+                {% else %}
+                  Log In
+                {% endif %}
+              </a>
+            </li>
+          {% comment %} <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dropdown
             </a>
@@ -57,12 +57,12 @@
           </li>
           <li class="nav-item">
             <a class="nav-link disabled"href="#">Add Labelled Data</a>
-          </li>  -->
+          </li> {% endcomment %}
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        {% comment %} <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form> {% endcomment %}
       </div>
     </nav>
     <div>

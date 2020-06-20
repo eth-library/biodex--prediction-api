@@ -4,11 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 
-
 import requests
 
 from backend.settings import BASE_URL
 from taxonomy.models import Family, Subfamily, Genus, Species
+from uploadforpredict_rest.views import predict_image_view
 from .forms import RequestTokenForm
 
 def home_view(request):
@@ -116,6 +116,7 @@ def predict_view(request):
     """View function for home page of site."""
 
     page_title = 'Predict'
+
     prediction_results = {}
     authed = request.user.is_authenticated
     context = {
@@ -124,5 +125,55 @@ def predict_view(request):
         'authed': authed
         }
 
+    if request.method == 'POST' and request.FILES["image"]:
+        #use predeiction endpoint from the rest api
+        prediction_request = predict_image_view(request)
+
+        prediction_results = prediction_request.data['predictions']
+        upload_img_name = prediction_request.data['uploaded_image_saved_name']
+        upload_img_url = '/media/prediction_uploads/{}'.format(upload_img_name)
+        prediction_results = prediction_request.data['predictions']
+        context['prediction_results'] = prediction_results
+        context['upload_img_url'] = upload_img_url
+        
+        return render(request,'predict.html', context=context)
+
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'predict.html', context=context)
+
+
+def request_token_view(request):
+        
+    page_title = 'Log In'
+    user_token = ''
+    context= {
+        'page_title':page_title,
+        'user_token': user_token,        
+    }
+
+    if request.method == "POST":
+        
+        form = AuthenticationForm(data=request.POST)
+
+        if True: #form.is_valid()
+            
+            username = form['username']
+            password = form['password']
+
+            data = {'username':username,
+                    'password':password}
+
+            token_url = 'http://' + BASE_URL + '/api/auth/token/login/'
+            
+            token_resp = requests.post(token_url, data)
+            print(' token_resp', token_resp)
+            if token_resp.status_code == 200:
+                context['user_token'] = token_resp.json['Token']
+        else:
+            print('form not valid', request.POST)
+        return render(request, 'request_token.html', context=context)
+
+    form = AuthenticationForm()
+    context['form'] = form
+
+    return render(request, 'request_token.html', context=context)
