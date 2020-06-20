@@ -28,8 +28,22 @@
             <a class="nav-link" href="{% url 'about' %}">About</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url 'upload' %}">Predict</a>
+            <a class="nav-link" href="{% url 'login' %}">
+              {% if user.is_authenticated %}
+                Log Out
+              {% else %}
+                Log In
+              {% endif %}
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'upload' %}">Upload</a>
+              </li>            
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'predict' %}">Predict</a>
             </li>
+          {% endif %}
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dropdown

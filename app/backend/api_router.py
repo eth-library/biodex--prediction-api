@@ -11,7 +11,7 @@ router = routers.DefaultRouter()
 router.register(r'^taxonomy/family', FamilyViewset)
 router.register(r'taxonomy/subfamily', SubfamilyViewset)
 router.register(r'taxonomy/genus', GenusViewset)
-router.register(r'^taxonomy/species',SpeciesViewset)
+router.register(r'^taxonomy/species', SpeciesViewset)
 #media endpoints
 router.register(r'images/classifications', ImageClassificationViewset)
 router.register(r'images', ImageViewset)

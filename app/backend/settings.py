@@ -25,7 +25,8 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '127.0.0.1 localhost').split(" ")
-
+BASE_URL = ALLOWED_HOSTS[-1]
+LOGIN_URL = '/login/'
 # ? assigning env variables here not working
 DJANGO_SUPERUSER_PASSWORD = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
 DJANGO_SUPERUSER_USERNAME = os.environ.get("DJANGO_SUPERUSER_USERNAME")
@@ -220,7 +221,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 MEDIA_UPLOAD_FOLDER = os.path.join(MEDIA_ROOT, "upload")
 MEDIA_EXAMPLE_FOLDER = os.path.join(MEDIA_ROOT, "example")
 
-MEDIA_BASE_URL = ALLOWED_HOSTS[-1] + MEDIA_URL
+MEDIA_BASE_URL = BASE_URL + MEDIA_URL
 EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions

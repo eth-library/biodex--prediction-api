@@ -1,0 +1,52 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+  {% load static %}
+<div>
+    <hr>
+
+    {{ authed }}
+    <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="input-group">
+        <div class="custom-file">
+            <input type="file" name="image" class="custom-file-input" id="inputGroupImageFile" onchange="updateElementWithFilename('imageNameLabel', this.value)">
+            <label class="custom-file-label" id="imageNameLabel" for="inputGroupImageFile">{{ image_name }}</label>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" value="submit" type="submit">Upload</button>
+        </div>
+        </div>
+
+        {% if image_url %}
+        <p>File uploaded at: <a href="{{ image_url }}">{{ image_url }}</a></p>
+        {% endif %}
+
+    </form>
+    <hr>
+
+    <div>
+        <h3>Results</h3>
+        <p>
+            {{ prediction_results }}
+        </p>
+    </div>
+
+</div>
+<script>
+  
+  
+  var getfname = function (str) {
+    return str.split('\\').pop().split('/').pop();
+  }
+
+  var updateElementWithFilename = function(elId, filepath) {
+    fname = getfname(filepath)
+    document.getElementById(elId).innerHTML = fname
+  }
+
+</script>
+
+{% endblock %}

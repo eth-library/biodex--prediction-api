@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div>
+    <hr>
+    
+        {{ login_message }}    
+
+    {% if not loggedin %}
+    
+        <form name='loginForm' action='' method="post">
+            
+            {% csrf_token %}
+            <div class="d-flex flex-wrap">
+                
+                <div class=".d-md-flex">
+                    <input type="text" name="username" class="form-control .d-md-flex" placeholder="Username"></input>
+                </div>
+                <div class=".d-md-flex">
+                    <input type="password" name="password" class="form-control" placeholder="Password"></input>
+                </div>
+                    <Input type="submit" class="btn btn-primary mb-2"></button>
+            </div>
+        </form>
+    {% endif %}
+
+    {% if loggedin %}
+        <form name='logOutForm' action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <Input type="submit" class="btn btn-primary mb-2" value="Log Out"></button>
+        </form>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -17,7 +17,6 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("api/auth/", include("djoser.urls.authtoken")),
     path("api/auth/", include("djoser.urls")),
-
     url(r"^api/predict", predict_image_view),
     url(r'^api/example_images', get_example_images),
     url(r'^api/query_species', query_species_name)
