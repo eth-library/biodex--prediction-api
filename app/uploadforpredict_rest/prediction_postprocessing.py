@@ -26,7 +26,7 @@ HIER_ORDER = ['species', 'genus', 'subfamily', 'family']
 prob_order = [x+'_prob' for x in HIER_ORDER]
 prediction_keys = HIER_ORDER + prob_order
 NUM_RESULTS = 5
-NUM_EXAMPLE_IMAGES = 5
+NUM_EXAMPLE_IMAGES = 6
 
 
 def load_csv_as_array(fpath, datatype=np.int0, skip_header=True):
