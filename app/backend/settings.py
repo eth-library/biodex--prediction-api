@@ -112,6 +112,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = os.environ.get("EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "speseefy@gmail.com")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "foo")
+EMAIL_CONTACT_LIST = os.environ.get("EMAIL_CONTACT_LIST","barry.sunderland@librarylab.ethz.ch").split(" ")
 
 
 if DEBUG:

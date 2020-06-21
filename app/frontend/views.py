@@ -3,10 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail
 
 import requests
 
-from backend.settings import BASE_URL
+from backend.settings import BASE_URL, EMAIL_CONTACT_LIST
 from taxonomy.models import Family, Subfamily, Genus, Species
 from uploadforpredict_rest.views import predict_image_view
 
@@ -36,7 +37,7 @@ def home_view(request):
 
 
 def about_view(request):
-    """View function for home page of site."""
+    """View function for about page of site."""
 
     page_title = 'About'
 
@@ -46,6 +47,46 @@ def about_view(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'about.html', context=context)
 
+
+def contact_view(request):
+    """View function for contact page."""
+
+    page_title = 'Contact'
+
+    context = {
+        'page_title':page_title}
+
+    if request.method == 'POST':
+        
+        contact_name = request.POST['contact_name']
+        contact_email = request.POST['contact_email']
+        contact_subject = request.POST['contact_subject']
+        contact_message = request.POST['contact_message']
+
+        forward_message = """
+from: {contact_name}  
+email: {contact_email}  
+subject: {contact_subject}  
+message:   
+{contact_message}
+""".format(contact_name=contact_name,
+            contact_email=contact_email,
+            contact_subject=contact_subject,
+            contact_message=contact_message)
+
+        #send the contact email
+        send_mail('BIODEX_CONTACT: {}'.format(contact_subject),
+                forward_message,
+                contact_email,
+                EMAIL_CONTACT_LIST,
+                )
+
+
+        context['response_message'] = "Thanks for contacting us {}, we look forward to reading your message".format(contact_name)
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'contact.html', context=context)
+    
 
 def login_view(request):
         
@@ -77,10 +118,12 @@ def login_view(request):
             context['loggedin_username'] = loggedin_username
             context['login_message'] = 'logged in as: {}'.format(loggedin_username)
 
+            return HttpResponseRedirect('/predict/')
+            
         else:
             context['login_message'] = "Could not log in with provided credentials"
 
-        return render(request, 'login.html', context=context)
+            return render(request, 'login.html', context=context)
     
 
     return render(request, 'login.html', context=context)
@@ -131,7 +174,7 @@ def predict_view(request):
 
         prediction_results = prediction_request.data['predictions']
         upload_img_name = prediction_request.data['uploaded_image_saved_name']
-        upload_img_url = '/media/prediction_uploads/{}'.format(upload_img_name)
+        upload_img_url = '/media/image/prediction_uploads/{}'.format(upload_img_name)
         prediction_results = prediction_request.data['predictions']
         context['prediction_results'] = prediction_results
         context['upload_img_url'] = upload_img_url

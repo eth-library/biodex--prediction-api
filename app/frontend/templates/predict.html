@@ -25,7 +25,7 @@
     </form>
     <hr>
 
-    <div>
+
       <div class='d-flex flex-row-reverse"'>
         <div class='p-2'>
           <strong>uploaded image:</strong>
@@ -34,8 +34,9 @@
           <img src={{ upload_img_url }}>
         </div>
       </div>
-        <h3>Results</h3>
-        <div>
+
+      <h3>Results</h3>
+      <div>
         <div class='d-flex flex-wrap'> 
           <div class='.d-md-flex' style='padding:10px'>
             <strong>Family</strong>
@@ -49,13 +50,12 @@
           <div class='.d-md-flex' style='padding:10px'>
             <strong>Species</strong>
           </div>
+        </div>
 
-        <div>
         {% load customfilters %}
         {% for key, data in prediction_results.items %}
 
           <div class="d-flex flex-wrap">
-            {% comment %} <div class='.d-md-flex'>{{ key }}</div> {% endcomment %}
             <div class='.d-md-flex' style='padding:10px'> 
               <div >{{ data.family }}</div>
               <div>{{ data.family_prob | percentage }}</div>
@@ -72,16 +72,23 @@
               <div><em>{{ data.species }}</em></div>
               <div>{{ data.species_prob | percentage }}</div>
             </div>
-            <div class='.d-md-flex' style='padding:10px'>
+            {% comment %} <div class='.d-md-flex' style='padding:10px'>
               <img src= {{ data.example_image_0 }}>
-            </div>
+            </div> {% endcomment %}
+          </div>
+          <div class="d-flex flex-wrap">
+            {% for img in data.example_images %}
+              <div class='.d-md-flex' style='padding:5px'>
+                <img src= {{ img }}>
+              </div>
+            {% endfor %}
           </div>
             <hr>
           {% endfor %}
         </div>
         <hr>
             {% comment %} {{ prediction_results }} {% endcomment %}
-    </div>
+      </div>
 
 </div>
 <script>

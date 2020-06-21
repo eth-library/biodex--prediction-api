@@ -19,7 +19,7 @@
                 <div class=".d-md-flex">
                     <input type="password" name="password" class="form-control" placeholder="Password"></input>
                 </div>
-                    <Input type="submit" class="btn btn-primary mb-2"></button>
+                    <Input type="submit" class="btn btn-primary mb-2"></Input>
             </div>
         </form>
     {% endif %}
@@ -27,7 +27,7 @@
     {% if loggedin %}
         <form name='logOutForm' action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <Input type="submit" class="btn btn-primary mb-2" value="Log Out"></button>
+            <Input type="submit" class="btn btn-primary mb-2" value="Log Out"></Input>
         </form>
     {% endif %}
 
