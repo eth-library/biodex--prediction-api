@@ -82,6 +82,12 @@ if needed, open an interactive shell on a running container
 
 </p>
 
+
+copy a file into a container
+
+<p>
+    docker cp ./biodex_logo.svg 4627ca15283b:/usr/src/app/staticfiles/images/biodex_logo.svg
+</p>
 create a admin/superuser in the django app
 
 <p>
