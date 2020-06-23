@@ -11,9 +11,13 @@ sp. is used when the genus can be identified but the exact species cannot or doe
 # Main Deployment Steps
 
 1. log in to server & pull codebase from remote git repo
-2. save local prediction docker image as tar, transfer to server and load with docker
-3. transfer image, fixture files, static files etc.
-4. transfer env variable files
+1. save local prediction docker image as tar file, transfer to server and load with docker
+1. transfer images, fixture files, static files etc.
+1. transfer env variable files
+1. run docker-compose -p biodex up --build
+1. run migrations to tables: migrate docker-compose -f docker-compose.prod.yml exec web python manage.py migrate
+1. create superuser for django
+1. load fixture files using bash script: docker-compose exec web sh load_fixtures.sh 
 
 ## save local docker image and transfer to server
 
@@ -127,41 +131,16 @@ Check out the [post](https://testdriven.io/dockerizing-django-with-postgres-guni
 
 ## Want to use this project?
 
-### Development
-
-Uses the default Django development server.
-
-1. Rename *.env.dev-sample* to *.env.dev*.
-1. Update the environment variables in the *docker-compose.yml* and *.env.dev* files.
-1. Build the images and run the containers:
-
-    ```sh
-    $ docker-compose up -d --build
-    ```
-
-    Test it out at [http://localhost:8000](http://localhost:8000). The "app" folder is mounted into the container and your code changes apply automatically.
-
-### Production
-
-Uses gunicorn + nginx.
-
-1. Rename *.env.prod-sample* to *.env.prod* and *.env.prod.db-sample* to *.env.prod.db*. Update the environment variables.
-1. Build the images and run the containers:
-
-    ```sh
-    $ docker-compose -f docker-compose.prod.yml up -d --build
-    ```
-
-    Test it out at [http://localhost:1337](http://localhost:1337). No mounted folders. To apply changes, the image must be re-built.
-
 
 
 # Prediction Model
 
-#make sure that the that you want to containerize is saved in the models folder in the tf.saved_model format and with a numerical folder name
  
 ## Embed model in a Docker Image 
 __(reference https://www.tensorflow.org/tfx/serving/docker)__  
+
+make sure that the model that you want to containerize is saved in the models folder in the model_serving directory. The model should be in the tf.saved_model format, with a numerical folder name (e.g. a datetimestamp 202004281030)
+
 Go to model_serving folder and run:
 
     bash make_docker_image.sh
@@ -217,5 +196,3 @@ curl -X POST -d '{"username": "admin","password": "1234"}' -H 'Content-Type: app
 
 ## Using  Token 
 curl -X POST http://127.0.0.1:8000/api/predict/ -H 'Authorization: Token a21e26bd12a16542f940d641e840e32ad16a26d0' [{"id":1,"name":"admin"]
-
-c9a99f38165fceea9697170e2d2a162825621048

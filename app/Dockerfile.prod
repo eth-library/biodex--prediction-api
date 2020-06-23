@@ -15,13 +15,14 @@ ENV PYTHONUNBUFFERED 1
 # install psycopg2 & Pillow dependencies
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev \
-    && apk add jpeg-dev zlib-dev libjpeg 
+    && apk add jpeg-dev zlib-dev libjpeg
+
+RUN pip install --upgrade pip
+COPY . .
 
 # lint
-RUN pip install --upgrade pip
-RUN pip install flake8
-COPY . /usr/src/app/
-RUN flake8 --ignore=E501,F401 .
+# RUN pip install flake8
+# RUN flake8 --ignore=E501,F401 .
 
 # install dependencies
 COPY ./requirements.txt .
@@ -53,6 +54,7 @@ WORKDIR $APP_HOME
 
 # install dependencies
 RUN apk update && apk add libpq
+RUN apk add jpeg-dev zlib-dev libjpeg 
 # RUN apt-get update -y && apt-get install -y libpq-dev
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
