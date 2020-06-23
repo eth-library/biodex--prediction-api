@@ -1,5 +1,6 @@
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import api_view
+
 from predmodel_rest.serializers import PredModelSerializer
 from predmodel.models import PredModel
 
@@ -12,4 +13,8 @@ class PredModelViewset(viewsets.ModelViewSet):
     serializer_class = PredModelSerializer
 
 
+@api_view(['GET'])
+def latest_model_class_details(request):
 
+    mod_key_map = PredModel.objects.all().last().species_key_map
+    db_species = list(mod_key_map.values())

@@ -1,98 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  
-<head>
-  {% block title %}<title>BioDex</title>{% endblock %}
-  {% load static %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/sticky-footer-navbar.css">
-  <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}" />
-</head>
-<body>
-{% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="{% url 'home' %}">BioDex</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' %}">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-          </li>
-          {% if user.is_authenticated %}
-            {% comment %} <li class="nav-item">
-                <a class="nav-link" href="{% url 'upload' %}">Upload</a>
-              </li>             {% endcomment %}
+
+  <head>
+    {% block title %}<title>BioDex</title>{% endblock %}
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/sticky-footer-navbar.css">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}" />
+  </head>
+  <body>
+  {% block navbar %}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">BioDex</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'predict' %}">Predict</a>
+              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
-          {% endif %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">
-                {% if user.is_authenticated %}
-                  Log Out
-                {% else %}
-                  Log In
-                {% endif %}
+              <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+            </li>
+            {% if user.is_authenticated %}
+              {% comment %} <li class="nav-item">
+                  <a class="nav-link" href="{% url 'upload' %}">Upload</a>
+                </li>             {% endcomment %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'predict' %}">Predict</a>
+              </li>
+            {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">
+                  {% if user.is_authenticated %}
+                    Log Out
+                  {% else %}
+                    Log In
+                  {% endif %}
+                </a>
+              </li>
+            {% comment %} <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
               </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </li>
-          {% comment %} <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled"href="#">Add Labelled Data</a>
-          </li> {% endcomment %}
-        </ul>
-        {% comment %} <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link disabled"href="#">Add Labelled Data</a>
+            </li> {% endcomment %}
+          </ul>
+          {% comment %} <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form> {% endcomment %}
+        </div>
+      </nav>
+      <div>
+        <div class="text-justify justify-content-center row">
+          <div class="col-lg-5 col-md-8 col-sm-10">
+              <h1>BioDex {{ page_title }}</h1>
+              <img src="{% static "images/biodex_logo.svg" %}" width="250" alt="logo">
+          </div>
+        </div>
       </div>
-    </nav>
-    <div>
+  {% endblock %}
       <div class="text-justify justify-content-center row">
         <div class="col-lg-5 col-md-8 col-sm-10">
-            <h1>BioDex {{ page_title }}</h1>
-            <img src="{% static "images/biodex_logo.svg" %}" width="250" alt="logo">
+
+          {% block content %}
+          {% endblock %}
         </div>
+        <footer class="footer">
+          <div class="container">
+            <span style="font-size:8" class="text-muted">
+                By using this website you agree to the <a class="text-muted" target="_blank" href="https://drive.google.com/file/d/1exfKGM0yfQt06akf-E_6WDN92IQ675Mt/view">terms and conditions</a> of service.</span>
+              <a class="text-muted" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-sa.png" width="50" >
+              This work is licensed under a Creative Commons Attribution 4.0 International license
+              </a>
+
+          </div>
+        </footer>
+
       </div>
-    </div>
-{% endblock %}
-    <div class="text-justify justify-content-center row">
-      <div class="col-lg-5 col-md-8 col-sm-10">
 
-        {% block content %}
-        {% endblock %}
-      </div>
-      <footer class="footer">
-        <div class="container">
-          <span style="font-size:8" class="text-muted">By using this website you agree to the <a class="text-muted" target="_blank" href="https://drive.google.com/file/d/1exfKGM0yfQt06akf-E_6WDN92IQ675Mt/view">terms and conditions</a> of service</span>
-          <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-sa.png" width="50" >
-        </div>
-      </footer>
-
-    </div>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
 </html>

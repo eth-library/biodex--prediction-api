@@ -1,20 +1,15 @@
 from rest_framework import status
 from rest_framework.response import Response
 
-
 import requests
 import json
 import numpy as np
-
-
 
 from backend.settings import TENSORFLOW_SERVING_BASE_URL, DEBUG
 from predmodel.models import PredModel
 from uploadforpredict_rest.prediction_preprocessing import preprocess_img
 from uploadforpredict_rest.prediction_postprocessing import process_model_response
 
-# MODEL_NAME = 'resnet_test'
-# MODEL_VERSION = 'v1'
 # TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/{version}/models/{model_name}:predict'
 FAKE_MODEL_RESPONSE = False
 

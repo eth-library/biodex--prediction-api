@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'djoser', # djoser provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
 
     # own
-    "upload",
     "uploadforpredict",
     "uploadforpredict_rest",
     "taxonomy",

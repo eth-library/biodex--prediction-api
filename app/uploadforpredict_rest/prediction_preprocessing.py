@@ -10,12 +10,6 @@ import requests
 import json
 import ast
 
-MEAN_RGB = [142.09, 133.11, 119.00]
-MEAN_RGB = np.array(MEAN_RGB) / 255
-
-STDDEV_RGB = [92.01, 90.91, 88.99]
-STDDEV_RGB = np.array(STDDEV_RGB) / 255
-
 
 def get_model_rgb_mean_and_stddev(model_record):
     
