@@ -12,9 +12,9 @@ sp. is used when the genus can be identified but the exact species cannot or doe
 
 1. log in to server & pull codebase from remote git repo
 1. save local prediction docker image as tar file, transfer to server and load with docker
-1. transfer images, fixture files, static files etc.
+1. transfer image, fixturefile &  staticfile tar files to server
 1. transfer env variable files
-1. run docker-compose -p biodex up --build
+1. run docker-compose -f docker-compose.prod.yml -p biodex up --build
 1. run migrations to tables: migrate docker-compose -f docker-compose.prod.yml exec web python manage.py migrate
 1. create superuser for django
 1. load fixture files using bash script: docker-compose exec web sh load_fixtures.sh 
@@ -119,7 +119,7 @@ connect to an interactive shell for the postgres database
 </p>
 
 ## Check
-    Upload an image at http://localhost:1337/.
+    Upload an image at http://localhost:52500/.
     Then, view the image at http://localhost:1337/mediafiles/IMAGE_FILE_NAME
 
 # Dockerizing Django with Postgres, Gunicorn, and Nginx

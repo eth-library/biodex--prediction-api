@@ -63,6 +63,9 @@ INSTALLED_APPS = [
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+     'rest_framework.renderers.BrowsableAPIRenderer' if DEBUG else 'rest_framework.renderers.JSONRenderer'
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_THROTTLE_CLASSES': [
@@ -87,9 +90,7 @@ REST_FRAMEWORK = {
 }
 
 # API Settings: only show browsable api while in DEBUG
-DEFAULT_RENDERER_CLASSES = [
-    'rest_framework.renderers.JSONRenderer'
-    ]
+
 
 # AUTH_USER_MODEL="user_rest.CustomUser"
 
