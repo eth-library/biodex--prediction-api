@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser', # djoser provides a set of DRF views to handle basic actions such as registration, login, logout, password reset and account activation.
-
     # own
     "uploadforpredict",
     "uploadforpredict_rest",
@@ -91,7 +90,6 @@ REST_FRAMEWORK = {
 
 # API Settings: only show browsable api while in DEBUG
 
-
 # AUTH_USER_MODEL="user_rest.CustomUser"
 
 # https://djoser.readthedocs.io/en/latest/settings.html
@@ -108,10 +106,9 @@ DJOSER = {
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
 EMAIL_PORT = os.environ.get("EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "speseefy@gmail.com")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "foo")
 EMAIL_CONTACT_LIST = os.environ.get("EMAIL_CONTACT_LIST","barry.sunderland@librarylab.ethz.ch").split(" ")
 
 
