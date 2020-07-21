@@ -34,6 +34,21 @@ Then load the image into Docker:
 
     docker load -i <path to image tar file>
 
+## using docker hub
+
+first login to dockerhub biodex in the cmd line
+
+    docker login
+
+images can then be pushed or pulled from the docker hub repo
+for example;
+
+    docker push biodex/main:prediction_model__201911171137
+
+
+note that there is only one private repo in the free tier so version tagging is added after double underscore instead of colon
+
+
 # Rebuild and Run for Production
 
 generate new secret keys
@@ -130,7 +145,6 @@ https://github.com/testdrivenio/django-on-docker
 Check out the [post](https://testdriven.io/dockerizing-django-with-postgres-gunicorn-and-nginx).
 
 ## Want to use this project?
-
 
 
 # Prediction Model
