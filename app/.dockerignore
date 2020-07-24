@@ -1,2 +1,7 @@
 ./mediafiles
 ./fixturefiles
+.env
+.env.prod
+.env.prod.db
+Dockerfile
+Dockerfile.prod
