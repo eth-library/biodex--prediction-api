@@ -48,14 +48,14 @@ podman run \
     postgres:12.0-alpine
 
 # PREDICTION MODEL
-# CTR_NAME=biodex_tf-prod-ctr
-# echo "running $CTR_NAME"
-# podman run \
-#     --name $CTR_NAME \
-#     -d \
-#     --pod $POD_NAME \
-#     -p $PORT_TF_HOST:$PORT_TF_CTR \
-#     biodex/prediction_model:201911171137
+CTR_NAME=biodex_tf-prod-ctr
+echo "running $CTR_NAME"
+podman run \
+    --name $CTR_NAME \
+    -d \
+    --pod $POD_NAME \
+    -p $PORT_TF_HOST:$PORT_TF_CTR \
+    biodex/prediction_model:201911171137
 
 #web app
 CTR_NAME_WEB=biodex_webapp-prod-ctr
@@ -85,6 +85,15 @@ podman run \
     --volume $VOL_MEDIA:/data/mediafiles:ro \
     localhost/biodex/nginx-prod-img
 
+echo 'make migrations and migrate'
 podman exec -d $CTR_NAME_WEB python manage.py makemigrations
 podman exec -d $CTR_NAME_WEB python manage.py migrate
+echo 'collecting static files'
 podman exec -d $CTR_NAME_WEB python manage.py collectstatic --no-input
+
+# need to manually create a superuser and then load fixture files
+# export $(grep -v '^#' .env.prod | xargs)
+# podman exec -it $CTR_NAME_WEB python manage.py createsuperuser
+
+# # #'loading fixtures'
+# podman exec $CTR_NAME_WEB sh load_fixtures.sh
