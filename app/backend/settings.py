@@ -112,11 +112,6 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "speseefy@gmail.com")
 EMAIL_CONTACT_LIST = os.environ.get("EMAIL_CONTACT_LIST","barry.sunderland@librarylab.ethz.ch").split(" ")
 
 
-if DEBUG:
-    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + [
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -224,7 +219,9 @@ EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions
 
-TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/v1/models/lepidoptera:predict'
+# TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
+TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
+
 # number of top results to return 
 NUM_RESULTS = 5
 
