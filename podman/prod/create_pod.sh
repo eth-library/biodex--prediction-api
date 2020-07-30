@@ -4,7 +4,7 @@
 POD_NAME=biodex_web
 
 #create directories if not already existing
-VOL_DIR=~/biodex/volumes
+VOL_DIR=~/biodex/volumes/web
 VOL_MEDIA=$VOL_DIR/mediafiles
 VOL_STATIC=$VOL_DIR/staticfiles
 VOL_DB=$VOL_DIR/postgres

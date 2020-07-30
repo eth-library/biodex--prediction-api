@@ -169,7 +169,7 @@ def predict_view(request):
         }
 
     if request.method == 'POST' and request.FILES["image"]:
-        #use predeiction endpoint from the rest api
+        #use prediction endpoint from the rest api
         prediction_request = predict_image_view(request)
         print(prediction_request.data)
         prediction_results = prediction_request.data['predictions']
