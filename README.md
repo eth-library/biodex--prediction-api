@@ -7,6 +7,13 @@ species are named using the binomial format where the combination of the Genus a
 #### sp.
 sp. is used when the genus can be identified but the exact species cannot or does not need to be determined. e.g. Homo sp. refers to some unidentified species of the genus Homo.
 
+# Copyright
+
+When using images from other people/collections/entities it is very important to ensure that 
+we have permission to distribute the images.
+
+Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)
+http://creativecommons.org/licenses/by-nc-sa/3.0/
 
 # Main Deployment Steps
 
