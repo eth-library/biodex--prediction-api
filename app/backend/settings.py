@@ -62,9 +62,7 @@ INSTALLED_APPS = [
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-     'rest_framework.renderers.BrowsableAPIRenderer' if DEBUG else 'rest_framework.renderers.JSONRenderer'
-    ],
+    'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer',],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_THROTTLE_CLASSES': [
@@ -224,5 +222,3 @@ TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/vers
 
 # number of top results to return 
 NUM_RESULTS = 5
-
-ASSETS_DIR = os.path.join(BASE_DIR, 'assets') # stores files used for pre and post processing prediction response

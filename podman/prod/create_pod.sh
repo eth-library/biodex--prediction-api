@@ -17,10 +17,7 @@ mkdir -p -v $VOL_FIXT
 
 # get these from environment variables when finished debugging
 # define host ports for services
-PORT_PROXY_HOST=8000
-PORT_DB_HOST=8010
-# PORT_WEB_HOST=8020
-PORT_TF_HOST=8030
+PORT_PROXY_HOST=$(grep -Eo '(^PORT_PROXY_HOST=)([0-9]+)' .env.prod | grep -Eo '[0-9]+')
 
 # define container ports for services
 PORT_PROXY_CTR=80
@@ -30,8 +27,6 @@ PORT_TF_CTR=8501
 
 podman pod create \
     -p $PORT_PROXY_HOST:$PORT_PROXY_CTR \
-    -p $PORT_DB_HOST:$PORT_DB_CTR \
-    -p $PORT_TF_HOST:$PORT_TF_CTR \
     -n $POD_NAME
 
 # DATABASE
@@ -40,7 +35,6 @@ echo "running $CTR_NAME"
 podman run \
     --name $CTR_NAME \
     --pod $POD_NAME \
-    -p $PORT_DB_HOST:$PORT_DB_CTR \
     -d \
     --env-file .env.prod.db \
     --volume $VOL_DB:/var/lib/postgresql/data/ \
@@ -56,22 +50,6 @@ podman run \
     --pod $POD_NAME \
     -p $PORT_TF_HOST:$PORT_TF_CTR \
     biodex/prediction_model:201911171137
-
-#web app
-# CTR_NAME_WEB=biodex_webapp-prod-ctr
-# echo "running $CTR_NAME_WEB"
-# podman run \
-#     --name  $CTR_NAME_WEB \
-#     --pod $POD_NAME \
-#     -d \
-#     --volume ~/biodex/volumes/staticfiles:/home/app/web/staticfiles \
-#     --volume ~/biodex/volumes/mediafiles:/home/app/web/mediafiles \
-#     --volume ~/biodex/volumes/fixturefiles:/home/app/web/fixturefiles \
-#     --env-file .env.prod \
-#     --restart always \
-#     biodex/webapp-prod-img \
-#     gunicorn backend.wsgi:application --bind 0.0.0.0:7000
-
 
 
 CTR_NAME_WEB=biodex_webapp-prod-ctr
@@ -89,7 +67,6 @@ podman run \
     gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT_WEB_CTR
 
 
-
 #REVERSE PROXY
 CTR_NAME=biodex_nginx-prod-ctr
 echo "running $CTR_NAME"
@@ -97,7 +74,6 @@ podman run \
     --name $CTR_NAME \
     -d \
     --pod $POD_NAME \
-    -p $PORT_PROXY_HOST:$PORT_PROXY_CTR \
     --volume $VOL_STATIC:/data/staticfiles:ro \
     --volume $VOL_MEDIA:/data/mediafiles:ro \
     localhost/biodex/nginx-prod-img

@@ -5,11 +5,12 @@ POD_NAME=biodex_web_dev
 echo "creating pod: $biodex_web_dev"
 
 #create directories if not already existing
-VOL_DIR=~/biodex_dev/volumes
+VOL_DIR=~/biodex/dev/volumes
 VOL_MEDIA=$VOL_DIR/mediafiles
 VOL_STATIC=$VOL_DIR/staticfiles
 VOL_DB=$VOL_DIR/postgres
 VOL_FIXT=$VOL_DIR/fixturefiles
+VOL_CODE=~/projects/api/app
 
 mkdir -p -v $VOL_MEDIA
 mkdir -p -v $VOL_STATIC
@@ -82,31 +83,30 @@ podman run \
     --name  $CTR_NAME_WEB \
     --pod $POD_NAME \
     -d \
-    --volume ~/projects/api/app:/home/app/web/ \
+    --volume $VOL_CODE:/home/app/web/ \
     --volume $VOL_STATIC:/home/app/web/staticfiles \
     --volume $VOL_MEDIA:/home/app/web/mediafiles \
     --volume $VOL_FIXT:/home/app/web/fixturefiles \
     --env-file .env.dev \
-    --restart always \
     localhost/biodex/webapp-dev-img \
     gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT_WEB_CTR
 
 
-podman run \
-    --name biodex_webapp-dev-ctr \
-    --pod biodex_web_dev \
-    --volume ~/projects/api/app:/home/app/web/:ro \
-    --volume ~/biodex_dev/volumes/staticfiles:/home/app/web/staticfiles \
-    --volume ~/biodex_dev/volumes/mediafiles:/home/app/web/mediafiles \
-    --volume ~/biodex_dev/volumes/fixturefiles:/home/app/web/fixturefiles \
-    --env-file .env.dev \
-    localhost/biodex/webapp-dev-img \
-    python manage.py runserver 7000
-    # gunicorn backend.wsgi:application --bind 0.0.0.0:7000
+# podman run \
+#     --name biodex_webapp-dev-ctr \
+#     --pod biodex_web_dev \
+#     --volume ~/projects/api/app:/home/app/web/:ro \
+#     --volume ~/biodex_dev/volumes/staticfiles:/home/app/web/staticfiles \
+#     --volume ~/biodex_dev/volumes/mediafiles:/home/app/web/mediafiles \
+#     --volume ~/biodex_dev/volumes/fixturefiles:/home/app/web/fixturefiles \
+#     --env-file .env.dev \
+#     localhost/biodex/webapp-dev-img \
+#     python manage.py runserver 7000
+#     # gunicorn backend.wsgi:application --bind 0.0.0.0:7000
 
 
 #REVERSE PROXY
-CTR_NAME=biodex_nginx-prod-ctr
+CTR_NAME=biodex_nginx-dev-ctr
 echo "running $CTR_NAME"
 podman run \
     --name $CTR_NAME \
@@ -130,4 +130,4 @@ podman exec -d $CTR_NAME_WEB python manage.py collectstatic --no-input
 # echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'password')" | podman exec -it $CTR_NAME_WEB python web/manage.py shell
 
 # # #'loading fixtures'
-podman exec $CTR_NAME_WEB sh load_fixtures.sh
+# podman exec $CTR_NAME_WEB sh load_fixtures.sh

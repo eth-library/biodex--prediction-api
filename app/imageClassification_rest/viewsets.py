@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.db.models import F
 
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.pagination import LimitOffsetPagination
 
 from imageClassification.models import ImageClassification
-from imageClassification_rest.serializers import ImageClassificationSerializer
+from imageClassification_rest.serializers import ImageClassificationSerializer, TrainingImagesSerializer
 from image.models import Image
 
 class ImageClassificationViewset(viewsets.ModelViewSet):
@@ -30,17 +34,20 @@ class ImageClassificationViewset(viewsets.ModelViewSet):
 
         return qs
 
+class LargeResultsSetPagination(LimitOffsetPagination):
+    default_limit = 1000
+    max_limit = 10000
 
 
-@api_view(['GET'])
-def get_example_images(request):
+class LabelledImagesList(ListAPIView):
 
-    print(request.data)
-    # if 'species_key' in request.data.keys(): 
-        # spec_key = request.data['species_key']
-    spec_key = 1131
-    qs = ImageClassification.objects.filter(species_key=spec_key)
-    qs = qs.values('image_key')
-    print(qs)
-
-    return qs
+    queryset = ImageClassification.objects.all().values(
+                        'family_key__pk',
+                        'subfamily_key__pk',
+                        'genus_key__pk',
+                        'species_key__pk',
+                        'image_key__pk',
+                        'image_key__image'
+    )
+    pagination_class = LargeResultsSetPagination
+    serializer_class = TrainingImagesSerializer
