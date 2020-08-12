@@ -10,7 +10,8 @@ from predmodel.models import PredModel
 from uploadforpredict_rest.prediction_preprocessing import preprocess_img
 from uploadforpredict_rest.prediction_postprocessing import process_model_response
 
-# TENSORFLOW_SERVING_BASE_URL = 'http://tf:8501/{version}/models/{model_name}:predict'
+# TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
+
 FAKE_MODEL_RESPONSE = False
 
 def get_model_record(model_name):
@@ -27,11 +28,10 @@ def get_model_record(model_name):
 
 def format_model_request(model_record, preprocessed_img):
 
-
     model_version = model_record.name
     model_url = TENSORFLOW_SERVING_BASE_URL.format(
-                        version=model_version,
-                        model_name=model_record.name)
+                        model_version=model_version,
+                        model_name='lepidoptera')
     request_data = json.dumps({ "instances": [preprocessed_img, ]})
     headers = {"content-type": "application/json"}
 

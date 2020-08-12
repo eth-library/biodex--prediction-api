@@ -34,9 +34,10 @@ class Image(models.Model):
     image_type = models.CharField(max_length=1,
                                 choices=ImageType.choices,
                                 default=ImageType.MOBILE)
-    specimen_id = models.IntegerField(null=True, blank=True) # barcode for identifying physical specimen in the image
-    processed_git_uid = models.CharField(max_length=40) # git short hash code (first 7 digits) for what code version was used to process images, if null, image has not been processed (git rev-parse --short HEAD)
-
+    specimen_id = models.CharField(max_length=100, null=True, blank=True) # barcode for identifying physical specimen in the image
+    processed_git_uid = models.CharField(max_length=40, blank=True) # git short hash code (first 7 digits) for what code version was used to process images, if null, image has not been processed (git rev-parse --short HEAD)
+    gbif_id = models.CharField(max_length=200, blank=True)
+    
     class Meta:
         ordering = ['added_date','image']
 

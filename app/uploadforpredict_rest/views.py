@@ -11,7 +11,7 @@ from uploadforpredict_rest.serializers import PredictImageSerializer
 from uploadforpredict.models import PredictImage
 from uploadforpredict_rest.predict import get_prediction
 
-from backend.settings import MEDIA_ROOT, ASSETS_DIR, DEBUG
+from backend.settings import MEDIA_ROOT, DEBUG
 
 FAKE_MODEL_RESPONSE = False
 

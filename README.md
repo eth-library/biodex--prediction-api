@@ -41,6 +41,21 @@ Then load the image into Docker:
 
     docker load -i <path to image tar file>
 
+## using docker hub
+
+first login to dockerhub biodex in the cmd line
+
+    docker login
+
+images can then be pushed or pulled from the docker hub repo
+for example;
+
+    docker push biodex/main:prediction_model__201911171137
+
+
+note that there is only one private repo in the free tier so version tagging is added after double underscore instead of colon
+
+
 # Rebuild and Run for Production
 
 generate new secret keys
@@ -139,7 +154,6 @@ Check out the [post](https://testdriven.io/dockerizing-django-with-postgres-guni
 ## Want to use this project?
 
 
-
 # Prediction Model
 
  
@@ -184,9 +198,11 @@ this maps how classes in each hierarchical level map to the classes in their par
 # Authentication
 __Uses Djoser__
 
-list of available endpoints
+list of all available endpoints
 https://djoser.readthedocs.io/en/latest/getting_started.html#available-endpoints
 
+token endpoints
+https://djoser.readthedocs.io/en/latest/token_endpoints.html
 
 ### create user
 http://127.0.0.1:8000/api/auth/users/
@@ -203,3 +219,18 @@ curl -X POST -d '{"username": "admin","password": "1234"}' -H 'Content-Type: app
 
 ## Using  Token 
 curl -X POST http://127.0.0.1:8000/api/predict/ -H 'Authorization: Token a21e26bd12a16542f940d641e840e32ad16a26d0' [{"id":1,"name":"admin"]
+
+# django basic queries
+
+get the first 5 records from a model
+
+    qryset = Image.objects.all()[:5]
+
+display the field names and values for those records
+
+    qryset.values()
+
+look up fields in a related model/table (i.e. join)
+connect the field in the current model to the desired field in the other model
+
+    cls.values('species_key','image_key__image')
