@@ -78,7 +78,7 @@ podman run \
     --volume $VOL_NGINX:/etc/nginx/conf.d \
     --volume $VOL_STATIC:/data/staticfiles:ro \
     --volume $VOL_MEDIA:/data/mediafiles:ro \
-    biodex/nginx-prod-img
+    nginx:latest
 
 echo 'making migrations'
 podman exec -d $CTR_NAME_WEB python manage.py makemigrations
