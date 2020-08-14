@@ -1,16 +1,16 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from django.conf import settings
+from django.conf.urls import url, include
 from django.conf.urls.static import static
 
 from .api_router import router_urls
-
 from frontend.urls import urlpatterns as fe_urlpatterns
 
 
 urlpatterns = [
     path("lepi-admin/", admin.site.urls),    
-    path("api-pred/", include(router_urls)),
+    url(r"^predapi/", include(router_urls)),
 ]
 
 urlpatterns += fe_urlpatterns
