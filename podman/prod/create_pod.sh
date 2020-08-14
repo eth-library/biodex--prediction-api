@@ -4,7 +4,8 @@
 POD_NAME=biodex_web
 
 #create directories if not already existing
-VOL_DIR=~/biodex/volumes/web
+VOL_DIR=~/volumes/web
+VOL_NGINX=$VOL_DIR/nginx
 VOL_MEDIA=$VOL_DIR/mediafiles
 VOL_STATIC=$VOL_DIR/staticfiles
 VOL_DB=$VOL_DIR/postgres
@@ -63,7 +64,7 @@ podman run \
     --volume $VOL_FIXT:/home/app/web/fixturefiles \
     --env-file .env.prod \
     --restart always \
-    localhost/biodex/webapp-prod-img \
+    biodex/webapp-prod-img \
     gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT_WEB_CTR
 
 
@@ -74,9 +75,10 @@ podman run \
     --name $CTR_NAME \
     -d \
     --pod $POD_NAME \
+    --volume $VOL_NGINX:/etc/nginx/conf.d \
     --volume $VOL_STATIC:/data/staticfiles:ro \
     --volume $VOL_MEDIA:/data/mediafiles:ro \
-    localhost/biodex/nginx-prod-img
+    biodex/nginx-prod-img
 
 echo 'making migrations'
 podman exec -d $CTR_NAME_WEB python manage.py makemigrations
