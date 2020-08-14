@@ -89,7 +89,7 @@ podman run \
     --volume $VOL_FIXT:/home/app/web/fixturefiles \
     --env-file .env.dev \
     localhost/biodex/webapp-dev-img \
-    gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT_WEB_CTR
+    gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT_WEB_CTR --reload
 
 
 # podman run \
