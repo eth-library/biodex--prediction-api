@@ -60,6 +60,9 @@ INSTALLED_APPS = [
     "frontend",
 ]
 
+#this sets the base url based on the request. otherwise urls returned would use the locally defined host e.g.: localhost:8000
+#note nginx also needs to be configured to forward the header
+USE_X_FORWARDED_HOST=True
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer',],
