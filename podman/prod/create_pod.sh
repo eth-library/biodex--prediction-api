@@ -29,7 +29,6 @@ PORT_TF_CTR=8501
 podman pod create \
     -p $PORT_PROXY_HOST:$PORT_PROXY_CTR \
     -n $POD_NAME
-
 # DATABASE
 CTR_NAME=biodex_db-prod-ctr
 echo "running $CTR_NAME"
@@ -49,7 +48,7 @@ podman run \
     --name $CTR_NAME \
     -d \
     --pod $POD_NAME \
-    -p $PORT_TF_HOST:$PORT_TF_CTR \
+    --restart always \
     biodex/prediction_model:201911171137
 
 
@@ -59,13 +58,13 @@ podman run \
     --name  $CTR_NAME_WEB \
     --pod $POD_NAME \
     -d \
-    --volume $VOL_STATIC:/home/app/web/staticfiles \
-    --volume $VOL_MEDIA:/home/app/web/mediafiles \
+    --volume $VOL_STATIC:/home/app/web/staticfiles:z \
+    --volume $VOL_MEDIA:/home/app/web/mediafiles:z \
     --volume $VOL_FIXT:/home/app/web/fixturefiles \
     --env-file .env.prod \
     --restart always \
-    biodex/webapp-prod-img \
-    gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT_WEB_CTR
+    biodex/webapp-prod-img:20200812 \
+    gunicorn backend.wsgi:application --bind 127.0.0.1:$PORT_WEB_CTR
 
 
 #REVERSE PROXY
@@ -78,7 +77,9 @@ podman run \
     --volume $VOL_NGINX:/etc/nginx/conf.d \
     --volume $VOL_STATIC:/data/staticfiles:ro \
     --volume $VOL_MEDIA:/data/mediafiles:ro \
-    nginx:latest
+    --restart always \
+    nginx:1
+
 
 echo 'making migrations'
 podman exec -d $CTR_NAME_WEB python manage.py makemigrations
@@ -88,7 +89,6 @@ echo 'collecting static files'
 podman exec -d $CTR_NAME_WEB python manage.py collectstatic --no-input
 
 # need to manually create a superuser and then load fixture files
-
 # podman exec -it $CTR_NAME_WEB python manage.py createsuperuser
 
 # # #'loading fixtures'
