@@ -208,7 +208,7 @@ STATICFILES_DIRS = [
 # files to populate the database with
 FIXTURES_DIRS = ["fixturefiles"]
 # stores files for static serving
-MEDIA_URL = "/media/"
+MEDIA_URL = os.environ.get("HOST_URL", "localhost:8000") + '/media/' 
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 # use seperate folders for example images and uploaded images
@@ -220,7 +220,6 @@ EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions
 
-# TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
 TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
 
 # number of top results to return 
