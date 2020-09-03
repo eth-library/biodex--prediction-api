@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 
 from imageClassification.models import ImageClassification
-from imageClassification_rest.serializers import ImageClassificationSerializer, TrainingImagesSerializer
+from imageClassification.serializers import ImageClassificationSerializer, TrainingImagesSerializer
 from image.models import Image
 
 class ImageClassificationViewset(viewsets.ModelViewSet):
@@ -37,7 +37,6 @@ class ImageClassificationViewset(viewsets.ModelViewSet):
 class LargeResultsSetPagination(LimitOffsetPagination):
     default_limit = 1000
     max_limit = 10000
-
 
 class LabelledImagesList(ListAPIView):
 
