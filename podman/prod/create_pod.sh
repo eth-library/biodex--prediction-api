@@ -74,7 +74,7 @@ podman run \
     --name $CTR_NAME \
     -d \
     --pod $POD_NAME \
-    --volume $VOL_NGINX:/etc/nginx/conf.d \
+    --volume $VOL_NGINX:/etc/nginx/conf.d:ro \
     --volume $VOL_STATIC:/data/staticfiles:ro \
     --volume $VOL_MEDIA:/data/mediafiles:ro \
     --restart always \

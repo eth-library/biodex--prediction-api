@@ -171,11 +171,10 @@ def predict_view(request):
     if request.method == 'POST' and request.FILES["image"]:
         #use prediction endpoint from the rest api
         prediction_request = predict_image_view(request)
-        print(prediction_request.data)
         prediction_results = prediction_request.data['predictions']
+        print('top prediction: \n', prediction_results[0], '\n')
         upload_img_name = prediction_request.data['uploaded_image_saved_name']
         upload_img_url = '/media/image/prediction_uploads/{}'.format(upload_img_name)
-        prediction_results = prediction_request.data['predictions']
         context['prediction_results'] = prediction_results
         context['upload_img_url'] = upload_img_url
         

@@ -191,15 +191,14 @@ def process_model_response(model_record, model_response):
     for i, species_key in enumerate(top_db_classes):
         
         res_dict = query_db_to_make_dict_of_taxonomy_names(species_key)
-        print(res_dict)
         probs_dict = dict(zip(prob_order, top_probs[i,:].tolist()))
         res_dict.update(probs_dict)
-        print(res_dict)
 
         img_lst = query_example_images(species_key, NUM_EXAMPLE_IMAGES)
         res_dict['example_images'] = img_lst
         res_dict['example_image_0'] = img_lst[0] # included for legacy reasons due to how mobile app consumes the reponse
         res_dict['description'] = ""
+        res_dict['index'] = species_key
         predictions[i] = res_dict
 
     return predictions
