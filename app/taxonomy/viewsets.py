@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework import generics
 from rest_framework import permissions
 from taxonomy.models import Family, Subfamily, Genus, Species
-from taxonomy_rest.serializers import FamilySerializer, SubfamilySerializer, GenusSerializer, SpeciesSerializer
+from taxonomy.serializers import FamilySerializer, SubfamilySerializer, GenusSerializer, SpeciesSerializer
 
 
 class FamilyViewset(viewsets.ModelViewSet):

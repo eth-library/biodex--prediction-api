@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "uploadforpredict",
     "uploadforpredict_rest",
     "taxonomy",
-    "taxonomy_rest",
     "predmodel",
     "predmodel_rest",
     "image",
