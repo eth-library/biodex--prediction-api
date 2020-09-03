@@ -12,7 +12,7 @@ venv/
 mediafiles/
 staticfiles/
 fixturefiles/
-
+nginx.conf
 .vscode/
 
 # Below was Created by https://www.gitignore.io/api/django
