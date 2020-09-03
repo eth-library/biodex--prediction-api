@@ -1,26 +1,27 @@
+from rest_framework.test import APIRequestFactory
+from rest_framework.test import force_authenticate
+from rest_framework import status
+from rest_framework.test import APITestCase
+from django.urls import reverse
 from django.test import TestCase
 
-# Create your tests here.
+from image.models import Image
+from .prediction_postprocessing import query_example_images
 
-import requests
-import json
-import pprint
-import os
+class TestPredictionEndpoint(APITestCase):
 
-url = 'https://europe-west1-ethec-auto-insect-recognition.cloudfunctions.net/lepidoptera_clfr_objdet'
-url = 'http://127.0.0.1:8000/api/predict/'
+    def test_anonymous_is_forbidden(self):
 
+        response = self.client.post(reverse('api-predict'))
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-fldr_path = './app/backend/assets/example_images/2017_03_10R/'
-fname = 'ETHZ_ENT01_2017_03_10_001404.JPG'
-img_path = fldr_path + fname
-files = {'image': (fname, open(img_path, 'rb')) }
+class TestPredictionPostProcessing(TestCase):
 
-auth_token = ""
-headers = {'Authorization': 'Token {}'.format(auth_token)}
+    def setUp(self):
 
-r = requests.post(url, headers=headers, files=files)
-print('status code: ', r.status_code)
-if r.status_code == 201:
-    r_json = r.json()
-    pprint.pprint(r.json())
+        Image.objects.create()
+
+    def test_example_images(self):
+        
+        query_example_images()
+        
