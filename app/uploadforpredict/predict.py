@@ -7,8 +7,8 @@ import numpy as np
 
 from backend.settings import TENSORFLOW_SERVING_BASE_URL, DEBUG
 from predmodel.models import PredModel
-from uploadforpredict_rest.prediction_preprocessing import preprocess_img
-from uploadforpredict_rest.prediction_postprocessing import process_model_response
+from uploadforpredict.prediction_preprocessing import preprocess_img
+from uploadforpredict.prediction_postprocessing import process_model_response
 
 # TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
 

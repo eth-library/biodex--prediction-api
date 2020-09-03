@@ -7,9 +7,9 @@ import os
 import json
 from PIL import Image
 
-from uploadforpredict_rest.serializers import PredictImageSerializer
+from uploadforpredict.serializers import PredictImageSerializer
 from uploadforpredict.models import PredictImage
-from uploadforpredict_rest.predict import get_prediction
+from uploadforpredict.predict import get_prediction
 
 from backend.settings import MEDIA_ROOT, DEBUG
 

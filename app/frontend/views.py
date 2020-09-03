@@ -9,7 +9,7 @@ import requests
 
 from backend.settings import BASE_URL, EMAIL_CONTACT_LIST
 from taxonomy.models import Family, Subfamily, Genus, Species
-from uploadforpredict_rest.views import predict_image_view
+from uploadforpredict.views import predict_image_view
 
 
 def home_view(request):

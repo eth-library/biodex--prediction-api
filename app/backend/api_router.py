@@ -7,7 +7,7 @@ from predmodel_rest.viewsets import PredModelViewset
 from image.viewsets import ImageViewset
 from imageClassification.viewsets import ImageClassificationViewset
 #functional views
-from uploadforpredict_rest.views import predict_image_view
+from uploadforpredict.views import predict_image_view
 from imageClassification.viewsets import LabelledImagesList
 from taxonomy.viewsets import query_species_name
 
