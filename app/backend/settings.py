@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     "predmodel",
     "predmodel_rest",
     "image",
-    "image_rest",
     "imageClassification",
     "imageClassification_rest",
     "frontend",
