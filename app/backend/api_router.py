@@ -3,7 +3,7 @@ from django.urls import path, include
 
 #viewsets
 from taxonomy.viewsets import FamilyViewset, SubfamilyViewset, GenusViewset, SpeciesViewset
-from predmodel_rest.viewsets import PredModelViewset
+from predmodel.viewsets import PredModelViewset
 from image.viewsets import ImageViewset
 from imageClassification.viewsets import ImageClassificationViewset
 #functional views

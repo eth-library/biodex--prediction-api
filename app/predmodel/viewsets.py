@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import api_view
 
-from predmodel_rest.serializers import PredModelSerializer
+from predmodel.serializers import PredModelSerializer
 from predmodel.models import PredModel
 
 class PredModelViewset(viewsets.ModelViewSet):
