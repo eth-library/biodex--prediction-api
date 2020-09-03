@@ -1,4 +1,4 @@
-from backend.settings import MEDIA_BASE_URL, DEBUG
+from backend.settings import MEDIA_BASE_URL, DEBUG, MEDIA_ROOT
 from django.core.files.storage import FileSystemStorage
 
 import json
@@ -11,41 +11,13 @@ from time import time
 from taxonomy.models import Family, Subfamily, Genus, Species
 from image.models import Image
 
-curdir = os.path.dirname(os.path.abspath(__file__))
-
 strt_time = time()
-# these path definitions are temporary, should be imported from settings 
-BASE_DIR = os.path.join(curdir, '..')
-
-MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploaded_media')
-
-ASSETS_DIR = os.path.join(BASE_DIR, 'backend/assets')
-EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 HIER_ORDER = ['species', 'genus', 'subfamily', 'family']
 prob_order = [x+'_prob' for x in HIER_ORDER]
 prediction_keys = HIER_ORDER + prob_order
 NUM_RESULTS = 5
 NUM_EXAMPLE_IMAGES = 6
-
-
-def load_csv_as_array(fpath, datatype=np.int0, skip_header=True):
-    """
-    load a csv file and return as a numpy array
-    faster than loading using pandas but all cols must be same datatype
-    skips first row by default
-    """
-    with open(fpath,'r') as dest_f:
-        data_reader = csv.reader(dest_f,
-                                delimiter = ',',
-                                quotechar = '"')
-        if skip_header:
-            next(data_reader) #skips the header/first line
-    
-        data = [data for data in data_reader]
-    
-    return np.asarray(data, datatype)
-
 
 
 def load_class_hierarchy_map(model_record):
@@ -69,20 +41,6 @@ def load_charfield_as_numpy(char_field):
     array = np.from_list(lst)
 
     return array
-
-
-def load_example_img_dict():
-
-    fname = 'example_images.json'
-    fpath = os.path.join(ASSETS_DIR, fname)
-    
-    with open(fpath,'r') as f:
-        example_img_dict = json.load(f)
-
-    for k,img_lst in example_img_dict.items():
-        example_img_dict[k] = [EXAMPLE_IMAGES_BASE_URL + os.path.basename(img) for img in img_lst]
-
-    return example_img_dict
 
 
 def softmax(x):

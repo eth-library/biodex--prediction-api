@@ -216,8 +216,4 @@ MEDIA_BASE_URL = BASE_URL + MEDIA_URL
 EXAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, 'backend/assets','example_images')
 
 # settings related to predictions
-
-TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
-
-# number of top results to return 
-NUM_RESULTS = 5
+TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict" 
