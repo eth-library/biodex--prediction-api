@@ -10,7 +10,7 @@ from frontend.urls import urlpatterns as fe_urlpatterns
 
 urlpatterns = [
     path("lepi-admin/", admin.site.urls),    
-    url(r"^predapi/", include(router_urls)),
+    url(r"^pred-api/", include(router_urls)),
 ]
 
 urlpatterns += fe_urlpatterns

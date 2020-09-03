@@ -17,17 +17,17 @@ router = routers.DefaultRouter()
 router.register(r'models', PredModelViewset)
 
 ## taxonomy endpoints
-router.register(r'^taxonomy/family', FamilyViewset)
+router.register(r'taxonomy/family', FamilyViewset)
 router.register(r'taxonomy/subfamily', SubfamilyViewset)
 router.register(r'taxonomy/genus', GenusViewset)
-router.register(r'^taxonomy/species', SpeciesViewset)
+router.register(r'taxonomy/species', SpeciesViewset)
 #media endpoints
 router.register(r'images/classifications', ImageClassificationViewset)
 router.register(r'images', ImageViewset)
 
 paths = [
     path("auth/", include("djoser.urls")),
-    path("predict", predict_image_view),
+    path("predict", predict_image_view, name='api-predict'),
     path('images/training', LabelledImagesList.as_view()),
     path('query_species', query_species_name),
     ]
