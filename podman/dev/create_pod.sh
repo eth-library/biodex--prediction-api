@@ -6,16 +6,21 @@ echo "creating pod: $biodex_web_dev"
 
 #create directories if not already existing
 VOL_DIR=~/biodex/dev/volumes
+VOL_NGINX=$VOL_DIR/nginx
 VOL_MEDIA=$VOL_DIR/mediafiles
 VOL_STATIC=$VOL_DIR/staticfiles
 VOL_DB=$VOL_DIR/postgres
 VOL_FIXT=$VOL_DIR/fixturefiles
 VOL_CODE=~/projects/api/app
 
+mkdir -p -v $VOL_NGINX
 mkdir -p -v $VOL_MEDIA
 mkdir -p -v $VOL_STATIC
 mkdir -p -v $VOL_DB
 mkdir -p -v $VOL_FIXT
+
+# copy nginx config
+cp -i -v ./nginx-dev.conf $VOL_NGINX/nginx-dev.conf
 
 # get these from environment variables when finished debugging
 # define host ports for services
@@ -113,9 +118,10 @@ podman run \
     -d \
     --pod $POD_NAME \
     -p $PORT_PROXY_HOST:$PORT_PROXY_CTR \
+    --volume $VOL_NGINX:/etc/nginx/conf.d:ro \
     --volume $VOL_STATIC:/data/staticfiles:ro \
     --volume $VOL_MEDIA:/data/mediafiles:ro \
-    localhost/biodex/nginx-prod-img
+    nginx:1
 
 echo 'making migrations'
 podman exec -d $CTR_NAME_WEB python manage.py makemigrations
