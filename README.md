@@ -1,3 +1,47 @@
+# BioDex Docs
+
+
+<img src="./docs_assets/BioDex_logo_name_whitebackground.jpg" height="100">
+
+
+## About
+
+BioDex is a species classification tool for Taxonomists & Collection workers developed by [ETH Library Lab](https://www.librarylab.ethz.ch/).
+
+
+See more at biodex.ethz.ch/about/
+
+## Contents
+1. [Project Overview](#Project-Structure-Overview)
+1. [Prediction API & Website](#Prediction-API-&-Website)
+1. [Mobile App & API](#Mobile-App-&-API)
+1. [Image Repo (Docker Hub)](#Image-Repo)
+1. [Additional Info](#Additional-Info)
+    * Taxonomy
+    * [Podman](#Podman)
+    * Copyright
+
+
+# Prediction API & Website
+
+The _Prediction API_ is built with Django REST Framework. 
+It is used to: 
+- store image and taxonomic data for model training 
+- act as a gateway to the prediction model (by preprocessing posted images and postprocessing model response results)
+- gather response metadata (e.g. example images)
+- store data from prediction requests to be used for future analysis
+
+[Detailed README](./app/README.md)
+
+
+# Mobile App & API
+
+The mobile API is not in this codebase, for a detailed readme see that repo.
+
+
+
+# Additional Info
+
 # Taxonomic Terminology
 
 #### binomial naming
@@ -15,26 +59,14 @@ we have permission to distribute the images.
 Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)
 http://creativecommons.org/licenses/by-nc-sa/3.0/
 
-# Main Deployment Steps
 
-1. log in to server & pull codebase from remote git repo
-1. save local prediction docker image as tar file, transfer to server and load with docker
-1. transfer image, fixturefile &  staticfile tar files to server
-1. transfer env variable files
-1. run docker-compose -f docker-compose.prod.yml -p biodex up --build
-1. run migrations to tables: migrate docker-compose -f docker-compose.prod.yml exec web python manage.py migrate
-1. create superuser for django
-1. load fixture files using bash script: docker-compose exec web sh load_fixtures.sh 
 
 ## save local docker image and transfer to server
 
 save docker image as a tar file
 
-<p>
 
     docker save -o <path to generated file.tar> <image name>
-
-</p>
 
 Then copy your image to the host server with regular file transfer tools such as cp, scp.  
 Then load the image into Docker:
@@ -60,142 +92,48 @@ note that there is only one private repo in the free tier so version tagging is 
 
 generate new secret keys
 
-<p>
-
-    from django.core.management.utils import get_random_secret_key
-
-    print(get_random_secret_key())
-
-</p>
-
-remove volumes and stop running containers
-
-<p>
-
-    
-    docker-compose down -v
-</p>
-
-build the images (--build), start the containers and run in background ie no console logging (-d)  
-
-<p>
-
-    docker-compose -f docker-compose.prod.yml up -d --build
-
-</p>
-
-in the web container, run migrations with django  
-
-<p>
-
-    docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
-
-</p>
-
-collect any static files
-
-<p>
-
-    docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
-
-</p>
-
-if needed, open an interactive shell on a running container
-
-<p>
-
-    docker exec -it <container-number> /bin/bash
-
-</p>
+```python
+from django.core.management.utils import get_random_secret_key
+print(get_random_secret_key())
+```
 
 
-copy a file into a container
+create an admin/superuser in the django app
 
-<p>
-    docker cp ./biodex_logo.svg 4627ca15283b:/usr/src/app/staticfiles/images/biodex_logo.svg
-</p>
-create a admin/superuser in the django app
-
-<p>
-
-    docker-compose -f docker-compose.prod.yml exec web python manage.py createsuperuser
-
-</p>
+```
+podman exec -it WEB-CTR-NAME python manage.py createsuperuser
+```
 
 
 load fixture files using the convenience bash script
 
-<p>
-
-    docker-compose exec web sh load_fixtures.sh
-
-</p>
-
+```
+podman exec web sh load_fixtures.sh
+```
 
 connect to an interactive shell for the postgres database
 
-<p>
-
-    docker-compose exec db psql --username=admin --dbname=biodex_dev
-
-</p>
-
-## Check
-    Upload an image at http://localhost:52500/.
-    Then, view the image at http://localhost:1337/mediafiles/IMAGE_FILE_NAME
-
-# Dockerizing Django with Postgres, Gunicorn, and Nginx
-https://github.com/testdrivenio/django-on-docker
-
-## Want to learn how to build this?
-
-Check out the [post](https://testdriven.io/dockerizing-django-with-postgres-gunicorn-and-nginx).
-
-## Want to use this project?
+```
+podman exec DB-CTR-NAME psql --username=admin --dbname=biodex_dev
+```
 
 
-# Prediction Model
-
- 
-## Embed model in a Docker Image 
-__(reference https://www.tensorflow.org/tfx/serving/docker)__  
-
-make sure that the model that you want to containerize is saved in the models folder in the model_serving directory. The model should be in the tf.saved_model format, with a numerical folder name (e.g. a datetimestamp 202004281030)
-
-Go to model_serving folder and run:
-
-    bash make_docker_image.sh
-
-this convenience script pulls the tensorflow serving base image, adds the selected model from the local models folder, and creates a new image tagged with latest & the model number (see Dockerfile for more details
-
-## run the container
-docker run -p 8501:8501 [DOCKER_IMAGE_NAME]
-
-#this exposes an endpoint that can be used for predictions
-
-SERVER_URL = 'http://localhost:8501/v1/models/[DOCKER_IMAGE_NAME]:predict'
 
 
-## things that are needed by the model for predictions
-
-  
-### variables that change with every model
 
 
-#### image normalization values
+# Podman
 
-before the image is sent to the tensorflow model for prediction, the rgb values in the image are normalized, using the mean values for rgb mean and rgb standard deviation which was calculated for that model's training data. 
 
-#### species_key_map
-maps the species as numbered by the prediction model, to the species PKs in the database
-model classes will range from 0 to n, where _n_ is the number species the model was trained on. Class 0 in one model may not be the same as class 0 in a different model.The individual model ids need to be mapped to permanent species id numbers in the db
 
-* __encoded hierarchy maps__
+open an interactive shell on a running container
 
-this maps how classes in each hierarchical level map to the classes in their parent level. This is used when summing up the probabilies from the species level up to the family level.
+    podman exec -it <container-number> /bin/bash
+
 
 
 # Authentication
+
 __Uses Djoser__
 
 list of all available endpoints
