@@ -16,7 +16,7 @@ from taxonomy.viewsets import query_species_name
 router = routers.DefaultRouter()
 # router viewsets
 #prediction model endpoints
-router.register(r'models', PredModelViewset)
+router.register(r'prediction-models', PredModelViewset)
 
 ## taxonomy endpoints
 router.register(r'taxonomy/family', FamilyViewset)
