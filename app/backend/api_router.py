@@ -1,5 +1,7 @@
 from rest_framework import routers
 from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
+from rest_framework.permissions import IsAuthenticated
 
 #viewsets
 from taxonomy.viewsets import FamilyViewset, SubfamilyViewset, GenusViewset, SpeciesViewset
@@ -30,6 +32,7 @@ paths = [
     path("predict", predict_image_view, name='api-predict'),
     path('images/training', LabelledImagesList.as_view()),
     path('query_species', query_species_name),
+    path('docs/', include_docs_urls(title='BioDex - Prediction API', permission_classes=[IsAuthenticated])),
     ]
 
 router_urls = paths  + router.urls
