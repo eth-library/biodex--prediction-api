@@ -13,8 +13,8 @@ See more at biodex.ethz.ch/about/
 
 ## Contents
 1. [Project Overview](#Project-Structure-Overview)
-1. [Prediction API & Website](#Prediction-API-&-Website)
-1. [Mobile App & API](#Mobile-App-&-API)
+1. [Prediction API & Website](#Prediction-API--Website)
+1. [Mobile App & API](#Mobile-App--API)
 1. [Image Repo (Docker Hub)](#Image-Repo)
 1. [Additional Info](#Additional-Info)
     * Taxonomy
