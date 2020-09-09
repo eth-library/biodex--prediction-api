@@ -20,6 +20,7 @@ See more at biodex.ethz.ch/about/
     * Taxonomy
     * [Podman](#Podman)
     * Copyright
+    * [Django Basic Queries](#django-basic-queries)
 
 
 # Prediction API & Website
