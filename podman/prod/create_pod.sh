@@ -3,7 +3,7 @@
 # # podman create network
 POD_NAME=biodex_web
 
-#create directories if not already existing
+#create directories to mount if not already existing
 VOL_DIR=~/volumes/web
 VOL_NGINX=$VOL_DIR/nginx
 VOL_MEDIA=$VOL_DIR/mediafiles
@@ -11,10 +11,35 @@ VOL_STATIC=$VOL_DIR/staticfiles
 VOL_DB=$VOL_DIR/postgres
 VOL_FIXT=$VOL_DIR/fixturefiles
 
+#directory with compressed .tar.xz or .tar.gz files containing images, fixtures etc.
+DIR_TARFILES=~/tarfiles
+
+mkdir -p -v $VOL_NGINX
 mkdir -p -v $VOL_MEDIA
 mkdir -p -v $VOL_STATIC
 mkdir -p -v $VOL_DB
 mkdir -p -v $VOL_FIXT
+mkdir -p -v $DIR_TARFILES
+
+#copy nginx configuration file to volume
+cp -i ./nginx.conf $VOL_NGINX/nginx.conf
+
+# option to unpack tarfiles
+read -p "unpack tarfiles into volumes? (YES/n) case sensitive" UNPACK
+
+if [[ $UNPACK = "YES" ]]; then
+
+    #staticfiles
+    /bin/bash ./unpackfiles.sh -t $DIR_TARFILES/staticfiles.tar.gz -o $VOL_STATIC
+
+    #fixturefiles
+    /bin/bash ./unpackfiles.sh -t $DIR_TARFILES/fixturefiles.tar.xz -o $VOL_FIXT
+
+    #mediafiles
+    /bin/bash ./unpackfiles.sh -t $DIR_TARFILES/mediafiles.tar.xz -o $VOL_MEDIA
+else
+	echo "skipping tarfile unpacking"
+fi
 
 # get these from environment variables when finished debugging
 # define host ports for services
