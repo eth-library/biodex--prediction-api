@@ -70,16 +70,15 @@ See more at biodex.ethz.ch/about/
 
 ## Contents
 1. [Project Overview](#Project-Structure-Overview)
-1. [Prediction API & Website](#prediction-api--website)
+1. [Prediction API & Website](#Prediction-API--Website)
 1. [Mobile App & API](#Mobile-App--API)
-1. [Data](#Data)
-1. [Prediction Model](#Prediction-Model)
 1. [Image Repo (Docker Hub)](#Image-Repo)
 1. [Project Maintenance & Contribution](#Maintenance-and-Contribution)
 1. [Additional Info](#Additional-Info)
     * Taxonomy
     * [Podman](#Podman)
     * Copyright
+    * [Django Basic Queries](#django-basic-queries)
 
 
 # Project Overview
