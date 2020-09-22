@@ -13,6 +13,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from imageClassification.models import ImageClassification
 from imageClassification.serializers import ImageClassificationSerializer, TrainingImagesSerializer
 from image.models import Image
+from backend import custom_permissions
 
 class ImageClassificationViewset(viewsets.ModelViewSet):
 
@@ -39,7 +40,7 @@ class LargeResultsSetPagination(LimitOffsetPagination):
     max_limit = 10000
 
 class LabelledImagesList(ListAPIView):
-
+    permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
     queryset = ImageClassification.objects.all().values(
                         'family_key__pk',
                         'subfamily_key__pk',

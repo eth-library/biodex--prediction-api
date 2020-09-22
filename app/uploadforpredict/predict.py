@@ -12,8 +12,7 @@ from uploadforpredict.prediction_postprocessing import process_model_response
 
 # TENSORFLOW_SERVING_BASE_URL = "http://localhost:8501/v1/models/{model_name}/versions/{model_version}:predict"
 
-FAKE_MODEL_RESPONSE = False
-
+#in base class
 def get_model_record(model_name):
     
     if model_name == None:
@@ -25,7 +24,7 @@ def get_model_record(model_name):
 
     return model_record
 
-
+#in Tensorflow Serving Class? 
 def format_model_request(model_record, preprocessed_img):
 
     model_version = model_record.name
@@ -38,14 +37,16 @@ def format_model_request(model_record, preprocessed_img):
     return model_url, request_data, headers
 
 
-def make_fake_model_api_response():
-    model_prediction = np.zeros(60) #fake the model response if the model api is not running
-    model_prediction[0] = 15
-    resp_content = json.dumps({'predictions':[model_prediction,]})
+#change to class method; fake_predict?
+# def make_fake_model_api_response():
+#     model_prediction = np.zeros(60) #fake the model response if the model api is not running
+#     model_prediction[0] = 15
+#     resp_content = json.dumps({'predictions':[model_prediction,]})
     
-    return Response(resp_content, status.HTTP_206_PARTIAL_CONTENT)
+#     return Response(resp_content, status.HTTP_206_PARTIAL_CONTENT)
 
 
+# in TF model class
 def post_to_model(model_record, preprocessed_img):
     
     request_params = format_model_request(model_record, preprocessed_img)
@@ -65,7 +66,7 @@ def post_to_model(model_record, preprocessed_img):
     
     return model_api_response
 
-
+# in model
 def get_prediction(img_path_or_stream, model_name=None):
     """
     loads a locally saved image and posts to the model server to get prediction results

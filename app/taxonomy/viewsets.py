@@ -7,7 +7,7 @@ from taxonomy.serializers import FamilySerializer, SubfamilySerializer, GenusSer
 
 
 class FamilyViewset(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Family.objects.all()
     serializer_class = FamilySerializer
@@ -25,7 +25,7 @@ class FamilyViewset(viewsets.ModelViewSet):
 
 
 class SubfamilyViewset(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Subfamily.objects.all()
     serializer_class = SubfamilySerializer
@@ -43,7 +43,7 @@ class SubfamilyViewset(viewsets.ModelViewSet):
         return qs
 
 class GenusViewset(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Genus.objects.all()
     serializer_class = GenusSerializer
@@ -64,7 +64,7 @@ class GenusViewset(viewsets.ModelViewSet):
 
 
 class SpeciesViewset(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Species.objects.all()
     serializer_class = SpeciesSerializer

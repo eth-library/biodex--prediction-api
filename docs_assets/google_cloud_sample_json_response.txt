@@ -1,0 +1,62 @@
+{
+    "image": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/user_uploads/cd0bc38160c44496b4921f75828b0f7a.jpg",
+    "predictions": {
+        "0": {
+            "index": 57,
+            "family": "Papilionidae",
+            "family_prob": 0.9987090826,
+            "subfamily": "Papilioninae",
+            "subfamily_prob": 0.9983495474,
+            "species": "Iphiclides podalirius",
+            "species_prob": 0.9917422533,
+            "authorship": "(Linnaeus, 1758)",
+            "species_key": 10001000000000,
+            "example_image_0": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_20_004690.JPG",
+            "example_image_1": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004795.JPG",
+            "example_image_2": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004888.JPG",
+            "example_image_3": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004852.JPG",
+            "example_image_4": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004792.JPG",
+            "p_certainty": "",
+            "link_url": "http://www.lepiforum.de/lepiwiki.pl?Iphiclides_podalirius"
+        },
+        "1": {
+            "index": 58,
+            "family": "Papilionidae",
+            "family_prob": 0.9987090826,
+            "subfamily": "Papilioninae",
+            "subfamily_prob": 0.9983495474,
+            "species": "Iphiclides feisthamelii",
+            "species_prob": 0.0060221944,
+            "authorship": "(Duponchel, 1832)",
+            "species_key": 10001000000001,
+            "example_image_0": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004903.JPG",
+            "example_image_1": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004908.JPG",
+            "example_image_2": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004899.JPG",
+            "example_image_3": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004919.JPG",
+            "example_image_4": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_21_004910.JPG",
+            "p_certainty": "",
+            "link_url": "http://www.lepiforum.de/lepiwiki.pl?Iphiclides_feisthamelii"
+        },
+        "2": {
+            "index": 92,
+            "family": "Papilionidae",
+            "family_prob": 0.9987090826,
+            "subfamily": "Papilioninae",
+            "subfamily_prob": 0.9983495474,
+            "species": "Papilio alexanor",
+            "species_prob": 0.0002632738,
+            "authorship": "Esper, 1800",
+            "species_key": 10001030010024,
+            "example_image_0": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_20_004662.JPG",
+            "example_image_1": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2018_03_27_138290.JPG",
+            "example_image_2": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_20_004665.JPG",
+            "example_image_3": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_20_004660.JPG",
+            "example_image_4": "https://storage.googleapis.com/ethec-auto-insect-recognition-data/images/ETHZ_ENT01_2017_03_20_004666.JPG",
+            "p_certainty": "",
+            "link_url": "http://www.lepiforum.de/lepiwiki.pl?Papilio_alexanor"
+        }
+    },
+    "exec_time": "0:00:01.561352",
+    "model": "resnet_hier_v03 | ssd_mobilenet_v2_coco_butterfly",
+    "status": "OK: image processed | build version v09-20191121-0000"
+}

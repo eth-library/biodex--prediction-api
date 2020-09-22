@@ -15,6 +15,11 @@ class PredModelViewset(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def latest_model_class_details(request):
+    """
+    get:
+    
+
+    """
 
     mod_key_map = PredModel.objects.all().last().species_key_map
     db_species = list(mod_key_map.values())

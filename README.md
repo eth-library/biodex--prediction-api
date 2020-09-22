@@ -12,7 +12,7 @@ Training new prediction models, improvements to the app or general any developme
 
 for general enquiries 
     
-    contact@biodex@library.ethz.ch  
+    contact.biodex@library.ethz.ch  
 
 questions about Entomology, use in collections or discussing research colloborations
 
@@ -24,7 +24,7 @@ technical enquiries, prediction models, classification techniques etc.
 
 website or api services not available 
 
-    contact@biodex@library.ethz.ch  
+    contact.biodex@library.ethz.ch  
 
 For general bugs or requesting new features 
 
@@ -45,20 +45,6 @@ For general bugs or requesting new features
 | Replying to Contact Emails |             | __✓__       |             |
 
 
-<br/>
-<br/>
-
-Detail: 
-<br/>
-
-| Task                       | ETH Library | Contributors|
-| -----------------          | ----------- |-------------|
-| __Hosting__                |             |             |
-|-- website                  |__✓__        |             |
-|-- Prediction API           |__✓__        |             |
-|-- Mobile API               |__✓__        |             |
-| __Deployment__             |             |             |
-| Prediction Model Hosting   |__✓__        |             |
 
 
 

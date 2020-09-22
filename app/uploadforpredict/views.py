@@ -13,8 +13,8 @@ from uploadforpredict.predict import get_prediction
 
 from backend.settings import MEDIA_ROOT, DEBUG
 
-FAKE_MODEL_RESPONSE = False
-
+# not in model
+# Add in parameter model name into query
 @api_view(['POST','GET'])
 def predict_image_view(request):
     """
@@ -53,7 +53,6 @@ def predict_image_view(request):
 
             response_data = {}
             response_data['uploaded_image_saved_name']  = serialized_fname
-
             response_data['predictions'] = predictions_response.data
             response_data['prediction_model'] = str(model_name)
             response_data['exec_time'] = str(time() - strt_time) + ' s'

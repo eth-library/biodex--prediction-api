@@ -19,7 +19,9 @@ prediction_keys = HIER_ORDER + prob_order
 NUM_RESULTS = 5
 NUM_EXAMPLE_IMAGES = 6
 
+#Model class should not have to class Tensorflow Container?
 
+# in hierarchy model subclass
 def load_class_hierarchy_map(model_record):
     
     class_map_str = model_record.class_hierarchy_map
@@ -27,29 +29,15 @@ def load_class_hierarchy_map(model_record):
 
     return class_hierarchy_map
 
-def load_charfield_as_dict(char_field):
 
-    lst = json.loads(char_field)
-    array = np.from_list(lst)
-
-    return array
-
-
-def load_charfield_as_numpy(char_field):
-
-    lst = json.loads(char_field)
-    array = np.from_list(lst)
-
-    return array
-
-
+#part of generic base model class
 def softmax(x):
 
     """Compute softmax values for each sets of scores in x."""
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum()
 
-
+#in hierarchy model subclass
 def calc_class_probas(model_raw_response, class_hierarchy_map):
     """
     sum up the probabilites at each hierarchical level
@@ -67,6 +55,7 @@ def calc_class_probas(model_raw_response, class_hierarchy_map):
     return probas
 
 
+#in hierarchy model subclass
 def calc_top_results(all_class_probas, hier_enco):
 
     # subscript(insert) the probabilities for each level in the hierarchy
@@ -85,7 +74,7 @@ def calc_top_results(all_class_probas, hier_enco):
 
     return top_classes, top_probs
 
-
+#NOT in class
 def query_db_to_make_dict_of_taxonomy_names(species_key):
     
     res_dict = {}
@@ -103,6 +92,7 @@ def query_db_to_make_dict_of_taxonomy_names(species_key):
     return res_dict
 
 
+#NOT in class
 def query_example_images(species_key, num_images):
     
     fs = FileSystemStorage()
@@ -112,7 +102,7 @@ def query_example_images(species_key, num_images):
     
     return [fs.url(obj['image']) for obj in res]
 
-
+#in class
 def process_model_response(model_record, model_response):
     
     if DEBUG:
