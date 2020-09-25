@@ -4,6 +4,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from taxonomy.models import Family, Subfamily, Genus, Species
 from taxonomy.serializers import FamilySerializer, SubfamilySerializer, GenusSerializer, SpeciesSerializer
+from backend import custom_permissions
 
 
 class FamilyViewset(viewsets.ModelViewSet):
