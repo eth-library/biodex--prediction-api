@@ -6,5 +6,5 @@ from uploadforpredict.views import predict_image_view
 
 
 urlpatterns = [
-    path(r'predict/', predict_image_view)
+    path(r'predict/', predict_image_view.as_view())
 ]

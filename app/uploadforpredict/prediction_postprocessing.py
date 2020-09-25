@@ -114,7 +114,7 @@ def process_model_response(model_record, model_response):
     if DEBUG:
         print('model_raw_values: ', str(model_raw_values[:15])[:-1], ' ...')
 
-    #Load reference files
+    #Load model reference data
     class_hierarchy_map = model_record.class_hierarchy_map
     hier_enco = np.array(model_record.encoded_hierarchy)
     model_key_map = model_record.species_key_map

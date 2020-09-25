@@ -1,13 +1,31 @@
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework.response import Response
+
 from taxonomy.models import Family, Subfamily, Genus, Species
 from taxonomy.serializers import FamilySerializer, SubfamilySerializer, GenusSerializer, SpeciesSerializer
 from backend import custom_permissions
 
 
 class FamilyViewset(viewsets.ModelViewSet):
+    """
+    list:
+    return the records for family names. Accepts the filter parameter family e.g. ?family=Lypusidae This returns any names containing the query string
+    
+    create:
+    add a new family name to the database. Make sure to check first that the new record is 
+    genuinely new and that a similar name does not already exist.
+
+    read:
+    look up a specific record by id number
+
+    update:
+    change the fields value for a specific record. For example to correct a misspelling.    
+
+    """
     permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Family.objects.all()
@@ -26,6 +44,22 @@ class FamilyViewset(viewsets.ModelViewSet):
 
 
 class SubfamilyViewset(viewsets.ModelViewSet):
+    """
+    list:
+    return the records for subfamily names. Accepts the filter parameter subfamily e.g. ?subfamily=Agliinae This returns any names containing the query string
+    
+    create:
+    add a new subfamily name to the database. Make sure to check first that the new record is 
+    genuinely new and that a similar name does not already exist. parent field a foreign key to the parent family
+
+    read:
+    look up a specific record by id number
+
+    update:
+    change the fields value for a specific record. For example to correct a misspelling.    
+
+    """
+
     permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Subfamily.objects.all()
@@ -44,6 +78,22 @@ class SubfamilyViewset(viewsets.ModelViewSet):
         return qs
 
 class GenusViewset(viewsets.ModelViewSet):
+    """
+    list:
+    return the records for genus names. Accepts the filter parameter genus e.g. ?genus=Papilio This returns any names containing the query string
+    
+    create:
+    add a new genus name to the database. Make sure to check first that the new record is 
+    genuinely new and that a similar name does not already exist. parent field a foreign key to the parent subfamily
+
+    read:
+    look up a specific record by id number
+
+    update:
+    change the fields value for a specific record. For example to correct a misspelling.    
+
+    """
+
     permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Genus.objects.all()
@@ -52,9 +102,7 @@ class GenusViewset(viewsets.ModelViewSet):
     def get_queryset(self):
 
         qs = Genus.objects.all()
-        requested_genus = self.request.query_params.get('genus') #.lower()
-
-        print('requested_genus', requested_genus)
+        requested_genus = self.request.query_params.get('genus')
 
         if requested_genus is not None:
             requested_genus = str(requested_genus)
@@ -65,6 +113,21 @@ class GenusViewset(viewsets.ModelViewSet):
 
 
 class SpeciesViewset(viewsets.ModelViewSet):
+    """
+    list:
+    return the records for species names. Accepts the filter parameter genus e.g. ?genus=Papilio This returns any names containing the query string
+    
+    create:
+    add a new genus name to the database. Make sure to check first that the new record is 
+    genuinely new and that a similar name does not already exist. parent field a foreign key to the parent subfamily
+
+    read:
+    look up a specific record by id number
+
+    update:
+    change the fields value for a specific record. For example to correct a misspelling.    
+
+    """
     permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = Species.objects.all()
@@ -73,37 +136,52 @@ class SpeciesViewset(viewsets.ModelViewSet):
     def get_queryset(self):
 
         qs = Species.objects.all()
-        requested_genus = self.request.query_params.get('genus') #.lower()
-
-        print('requested_genus', requested_genus)
+        requested_genus = self.request.query_params.get('genus')
+        requested_epithet = self.request.query_params.get('epithet')
 
         if requested_genus is not None:
-            requested_genus = str(requested_genus)
-            qs_genus = Genus.objects.all()
-            qs_genus = qs_genus.filter(name__iexact=requested_genus)[0]
-            print(qs_genus.id)
-            qs_genus_id = qs_genus.id
+            qs = qs.filter(parent__name__icontains=requested_genus)
 
-            return qs.filter(parent=qs_genus_id)
+        # if requested_genus is not None:
+        #     requested_genus = str(requested_genus)
+        #     qs_genus = Genus.objects.all()
+        #     qs_genus = qs_genus.filter(name__iexact=requested_genus)[0]
+        #     qs_genus_id = qs_genus.id
+        #     qs = qs.filter(parent=qs_genus_id)
       
+    
+        if requested_epithet is not None:
+            qs = qs.filter(name__icontains=requested_epithet)
+
         return qs
 
 
-@api_view(['GET'])
-def query_species_name(request):
+class QuerySpeciesByName(APIView):
+    """
+    convenient way to view the string names in the database
+    """
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
+    serializer_class = SpeciesSerializer
 
-    if request.method == 'GET':
+    def get(self, request, format=None):
+        """
+        Look up the id number for a specific species by providing the Binomial species name.
+        Accepts the parameters genus & species. e.g.
+        ?genus=Archon&species=apollinus  
 
-        req_data = request.data
-        req_species = req_data['species']
-        prts = req_species.split('%20')
-        print(req_species)
-        genus = prts[0]
-        epithet = prts[1]
-        print(genus)
-        print(epithet)
+        This can be useful for aligning data sources
+        """
 
-        qs = Species.objects.filter(parent__name=genus).filter(name=epithet)
-        # qs = Species.objects.filter(parent__name='Archon').filter(name='apollinus')
-    
-    return qs
+        genus = request.GET.get('genus', 'Archon')
+        epithet = request.GET.get('epithet', '')
+
+        print(genus, epithet)
+
+        qs = Species.objects.filter(parent__name=genus)
+        if epithet:
+            qs = qs.filter(name=epithet)
+        names = [q for q in qs]
+
+        ser = SpeciesSerializer(names, many=True)
+        return Response(ser.data)

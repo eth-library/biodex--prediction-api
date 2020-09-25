@@ -24,4 +24,3 @@ class SpeciesSerializer(serializers.ModelSerializer):
         model = Species
         fields = ('id','name','parent','created_date')
 
-

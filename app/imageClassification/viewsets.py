@@ -16,8 +16,28 @@ from image.models import Image
 from backend import custom_permissions
 
 class ImageClassificationViewset(viewsets.ModelViewSet):
+    """
+    list: 
+    return a list of classifications. These are species classifications that that have been assigned to
+    images in the database by experts and admins. An image can have multiple classifications (for example if different users
+    have classified the same image)
+    
+    create:
+    add a new classification to an image. family_key, subfamily_key, 
+    genus_key and species_key are foreign keys to the relevant tables in the taxonomy tables.
+    
+    read:
+    return details for a specific classification
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    update:
+    change details for a specific classification
+
+    partial_update:
+    change some of the fields for a specific classification
+    
+    """
+
+    permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
 
     queryset = ImageClassification.objects.all()
     serializer_class = ImageClassificationSerializer
@@ -40,6 +60,13 @@ class LargeResultsSetPagination(LimitOffsetPagination):
     max_limit = 10000
 
 class LabelledImagesList(ListAPIView):
+    """
+    get:
+    Returns the image records joined with their classifications in a single table.
+    Used for returning data in a convenient format for model training.
+    """
+
+
     permission_classes = [custom_permissions.IsAdminUserOrReadOnly]
     queryset = ImageClassification.objects.all().values(
                         'family_key__pk',
