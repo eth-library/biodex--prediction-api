@@ -1,16 +1,41 @@
 # BioDex Docs
 
-
 <img src="./docs_assets/BioDex_logo_name_whitebackground.jpg" height="100">
+
+## About
+
+BioDex is a species classification tool for Taxonomists & Collection workers developed by [ETH Library Lab](https://www.librarylab.ethz.ch/).
+
+The project consists of three parts/repos
+1. [mobile app](https://github.com/eth-library-lab/biodex--mobile-app) for photographing specimens and viewing results
+1. [prediction API](https://github.com/eth-library-lab/biodex--prediction-api) for classifying images
+1. [prediction model](https://github.com/eth-library-lab/biodex--prediction-model) for training new models and data processing workflow
+
+See more general info at biodex.ethz.ch/about/
+
+## Contents
+1. [Project Overview](#Project-Structure-Overview)
+1. [Prediction API & Website](#Prediction-API--Website)
+1. [Mobile App & API](#Mobile-App--API)
+1. [Image Repo (Docker Hub)](#Image-Repo)
+1. [Project Maintenance & Contribution](#Maintenance-and-Contribution)
+1. [Additional Info](#Additional-Info)
+    * [Taxonomy](#Taxonomy)
+    * [Podman](#Podman)
+    * [Copyright](#copyright)
+    * [Django Basic Queries](#django-basic-queries)
+
+
+# Project Overview
+
+<img src="./docs_assets/project_overview.jpg" width="500px" height= "auto">
 
 ## Responsibility Matrix & Contact guidelines
 
-This project is kindly being hosted by ETH Library.
-Training new prediction models, improvements to the app or general any development work relies on contributions from our community of users.  
+This project is kindly hosted by ETH Library.
+Training new prediction models, improvements to the app or general any development work relies on contributions from contributors.  
 
-
-
-for general enquiries 
+For general enquiries 
     
     contact.biodex@library.ethz.ch  
 
@@ -22,16 +47,15 @@ technical enquiries, prediction models, classification techniques etc.
 
     barry.sunderland@librarylab.ethz.ch
 
-website or api services not available 
+if there is website or api services not available 
 
     contact.biodex@library.ethz.ch  
 
-For general bugs or requesting new features 
-
-    please submit an issue to the relevant github repo, or better yet, submit a pull request. see below for more info
+For general bugs or requesting new features, please submit an issue to the relevant github repo, or better yet, submit a pull request.
 
 ## Responsibilites
 
+<br>
 
 
 | Task                       | ETH Library | ETH EC      | Community   |
@@ -44,6 +68,7 @@ For general bugs or requesting new features
 | User Account Administration|             | __✓__       |             |
 | Replying to Contact Emails |             | __✓__       |             |
 
+<<<<<<< Updated upstream
 
 
 
@@ -71,6 +96,9 @@ See more at biodex.ethz.ch/about/
 
 
 
+=======
+<br>
+>>>>>>> Stashed changes
 
 # Prediction API & Website
 
@@ -100,9 +128,8 @@ model training is performed in a seperate repo
 
 # Maintenance and Contribution
 
-This Project is kindly being hosted ETH Library. Development however is left to the open source community and anyone who like to contribute is welcome to contact us or submit a Pull Request for a new feature.  
-
-
+This Project is kindly being hosted ETH Library. Developing new features and bug fixing is open to the community.
+We use Github Issues to track requests and bugs. If you would like to contribute significant changes please get in contact.
 
 
 
@@ -110,7 +137,7 @@ This Project is kindly being hosted ETH Library. Development however is left to 
 
 This section includes some background information and useful commands for some of the frameworks used on this project.
 
-# Taxonomic Terminology
+# Taxonomy
 
 #### binomial naming
 
